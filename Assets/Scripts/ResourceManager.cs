@@ -16,18 +16,18 @@ public class ResourceManager : MonoBehaviour
     }
 
 
-    public void AddWater(int AddingWaterNumber)
+    public void AddWater(int AddValue)
     {
-        Water += AddingWaterNumber;
+        Water += AddValue;
     }
 
-    public void AddSoftCurrency(int AddingSoftNumber)
+    public void AddSoftCurrency(int AddValue)
     {
-        SoftCurrency += AddingSoftNumber;
+        SoftCurrency += AddValue;
     }
 
-    public void AddHardCurrency(int AddingHardNumber)
+    public void AddHardCurrency(int AddValue)
     {
-        HardCurrency += AddingHardNumber;
+        HardCurrency += AddValue;
     }
 }

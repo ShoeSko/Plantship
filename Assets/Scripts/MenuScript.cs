@@ -5,55 +5,34 @@ using UnityEngine.SceneManagement;
 
 public class MenuScript : MonoBehaviour
 {
-    public bool shopMenuActive;
-    public bool fertMenuActive;
-    public bool collectMenuActive;
+    public GameObject[] listOfUINamesThingies;
+    public bool[] listOfUIBools;
 
-    public GameObject shopMenu;
-    public GameObject fertMenu;
-    public GameObject collectMenu;
-    public GameObject achievMenu;
-    public GameObject settingsMenu;
-
-    public void shopMenuToggle()
+    public void MenuToggle(int currentMenuItemID)
     {
-        if (shopMenuActive)
+        for (int i = 0; i < listOfUINamesThingies.Length; i++)
         {
-            shopMenu.SetActive(false);
-            shopMenuActive = false;
-        }
-        else
-        {
-            shopMenu.SetActive(true);
-            shopMenuActive = true;
+            if (i == currentMenuItemID)
+            {
+                if (listOfUIBools[i])
+                {
+                    listOfUINamesThingies[i].SetActive(false);
+                    listOfUIBools[i] = false;
+                }
+                else if (listOfUIBools[i])
+                {
+                    listOfUINamesThingies[i].SetActive(true);
+                    listOfUIBools[i] = true;
+                }
+            }
+            else
+            {
+                if (listOfUIBools[i])
+                {
+                    listOfUINamesThingies[i].SetActive(false);
+                    listOfUIBools[i] = false;
+                }
+            }
         }
     }
-
-    public void fertMenuToggle()
-    {
-        if (fertMenuActive)
-        {
-            fertMenu.SetActive(false);
-            fertMenuActive = false;
-        }
-        else
-        {
-            fertMenu.SetActive(true);
-            fertMenuActive = true;
-        }
-
-    }  public void collectMenuToggle()
-    {
-        if (collectMenuActive)
-        {
-            collectMenu.SetActive(false);
-            collectMenuActive = false;
-        }
-        else
-        {
-            collectMenu.SetActive(true);
-            collectMenuActive = true;
-        }
-    }
-
 }

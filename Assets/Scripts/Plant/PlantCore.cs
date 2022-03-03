@@ -30,6 +30,9 @@ public class PlantCore : MonoBehaviour
 
     [SerializeField] private int _currentPlantProgressionValue; //!!Serialized for Testing!! The value of the plants current progression. (can be used to determine growth stage) 
     private int _growthStage; //The value representation of the current stage (0 = seed, 3 = fully grown)
+
+    private float waterStoredInPlant; //The amount of water this plant has been given(Lowers over time)
+    private float waterPlantCanStoreLimit; //The upper amount of wate this plant can store.
     #endregion
 
     #region Awake / Start
@@ -54,7 +57,20 @@ public class PlantCore : MonoBehaviour
     }
     #endregion
 
+    #region Watering
+    public void GainingWater(int wateringOption) //Plant gaining water.  (Watering option in case we want multiple watering levels)
+    {
+        if (FindObjectOfType<WaterSource>()) //Safety net to prevent code from trying to use WaterSource without finding it.
+        {
+            WaterSource water = FindObjectOfType<WaterSource>(); //Gives refrence to the water source as Water.
 
+            if(wateringOption == 1)
+            {
+                water.wateringPlant(wateringOption);
+            }
+        }
+    }
+    #endregion
     #region Sprite changing
     private void PlantSpriteChange()
     {
@@ -97,4 +113,9 @@ public class PlantCore : MonoBehaviour
         this._sellingPriceOfPlant = plantTemplate.sellingPriceOfPlant; //Update the sell price to be the one from the template.
     }
     #endregion
+
+    public void testButton(GameObject tester)
+    {
+
+    }
 }

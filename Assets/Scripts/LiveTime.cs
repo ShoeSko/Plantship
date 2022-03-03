@@ -38,8 +38,6 @@ public class LiveTime : MonoBehaviour
         if (!BootOnce)
             BootUpdate();
 
-        Debug.Log(hour + ":" + minute + ":" + second);
-        Debug.Log("Day is " + day);
         SecondUpdater = second;
     }
 
@@ -49,25 +47,24 @@ public class LiveTime : MonoBehaviour
 
         if(SecondUpdater != second)//Tick only once every second
         {
-            Debug.Log(hour + ":" + minute + ":" + second);
             SecondUpdater = second;
         }
     }
 
     private void UpdateClock()
     {
+        year = System.DateTime.Now.Year;
+        day = System.DateTime.Now.DayOfYear;
+
         hour = System.DateTime.Now.Hour;
         minute = System.DateTime.Now.Minute;
         second = System.DateTime.Now.Second;
-
-        day = System.DateTime.Now.DayOfYear;
-        year = System.DateTime.Now.Year;
     }
 
     private void BootUpdate()
     {
-        //add year function here
-        dayPassed = day - daySave;//How many days passed since game was turned off (doesnt update in-game)
+        yearPassed = year - yearSave;
+        dayPassed = day + yearPassed * 365 - daySave;//How many days passed since game was turned off (doesnt update in-game)
         hourPassed = hour + dayPassed * 24 - hourSave;//How many hours passed since game was turned off(doesnt update in-game)
         minutePassed = minute + hourPassed * 60 - minuteSave;
         secondPassed = second + minutePassed * 60 - secondSave;

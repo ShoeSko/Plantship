@@ -6,18 +6,19 @@ using UnityEngine.UI;
 public class WaterSource : MonoBehaviour
 {
     #region Variables
-    private float currentWaterStored; //The current amount of water stored
+    [HideInInspector] public static float currentWaterStored; //The current amount of water stored
     [SerializeField] private int waterStorageLimit; //Upper limit of water storage (To be increased with the correct upgrades)
 
 
     [SerializeField] private Image waterLevelImage; //Image to represent the water level.
 
-    [SerializeField] private float waterRegenerationRate; //The rate water regenerates (Public/static later to be adjusted?)
+    [SerializeField] private float waterRegenerationRate = 5; //The rate water regenerates (Public/static later to be adjusted?)
     [SerializeField] private float regenRateSpeed = 5; //How long(in seconds) between each tic for water regeneration.
     #endregion
 
     private void Start()
     {
+        DontDestroyOnLoad(this.gameObject);
         InvokeRepeating("WaterRegeneration", 0f, regenRateSpeed); //Repeats the water regeneration (Not made to function with idle yet) Repeats according to the repeat speed.
     }
     #region Update
@@ -32,7 +33,8 @@ public class WaterSource : MonoBehaviour
     {
         if(currentWaterStored < waterStorageLimit)
         {
-            currentWaterStored = currentWaterStored + waterRegenerationRate;
+            currentWaterStored += waterRegenerationRate;
+            Debug.Log("i added water: " + currentWaterStored);
         }
     }
 

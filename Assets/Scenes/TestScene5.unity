@@ -152,6 +152,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6bcb5b9e20578f4ab2a21976e032e54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hour: 0
+  minute: 0
+  second: 0
+  day: 0
+  year: 0
+  yearSave: 0
+  daySave: 0
+  hourSave: 0
+  minuteSave: 0
+  secondSave: 0
 --- !u!4 &832864587
 Transform:
   m_ObjectHideFlags: 0
@@ -257,7 +267,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1366400537}
-  - component: {fileID: 1366400536}
+  - component: {fileID: 1366400538}
   m_Layer: 0
   m_Name: Resourcemanager
   m_TagString: Untagged
@@ -265,18 +275,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1366400536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1366400535}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46d341435beaf0046aa857369939cc64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1366400537
 Transform:
   m_ObjectHideFlags: 0
@@ -291,6 +289,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1366400538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1366400535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7d0bbc67314b514f99960c0d0aa81d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waterStorageLimit: 50
+  waterLevelImage: {fileID: 0}
+  waterRegenerationRate: 5
+  regenRateSpeed: 5
+  listOfUINamesThingies: []
+  listOfUIBools: 
 --- !u!1 &1582398912
 GameObject:
   m_ObjectHideFlags: 0

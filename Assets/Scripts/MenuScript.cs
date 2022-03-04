@@ -35,4 +35,9 @@ public class MenuScript : MonoBehaviour
             }
         }
     }
+
+    public void BackButton()
+    {
+        SceneManager.LoadScene("MainScene");
+    }
 }

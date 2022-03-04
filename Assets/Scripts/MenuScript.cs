@@ -19,7 +19,7 @@ public class MenuScript : MonoBehaviour
                     listOfUINamesThingies[i].SetActive(false);
                     listOfUIBools[i] = false;
                 }
-                else if (listOfUIBools[i])
+                else if (!listOfUIBools[i])
                 {
                     listOfUINamesThingies[i].SetActive(true);
                     listOfUIBools[i] = true;

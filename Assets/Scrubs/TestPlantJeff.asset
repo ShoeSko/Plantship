@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: TestPlantJeff
   m_EditorClassIdentifier: 
   nameOfPlant: Jeff
-  seed: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  growthStage1: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  growthStage2: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
-  fullyGrown: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  seed: {fileID: 21300000, guid: dd8a9b22632cd0242a8deebfe66ee13c, type: 3}
+  growthStage1: {fileID: 21300000, guid: dd8a9b22632cd0242a8deebfe66ee13c, type: 3}
+  growthStage2: {fileID: 21300000, guid: dd8a9b22632cd0242a8deebfe66ee13c, type: 3}
+  fullyGrown: {fileID: 21300000, guid: dd8a9b22632cd0242a8deebfe66ee13c, type: 3}
   progressionCostOfPlant: 0a000000140000001e000000
   preferencesOfPlant: []
   buyingPriceOfPlant: 5

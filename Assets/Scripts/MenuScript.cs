@@ -5,23 +5,23 @@ using UnityEngine.SceneManagement;
 
 public class MenuScript : MonoBehaviour
 {
-    public GameObject[] listOfUINamesThingies;
+    public GameObject[] listOfMenues;
     public bool[] listOfUIBools;
 
     public void MenuToggle(int currentMenuItemID)
     {
-        for (int i = 0; i < listOfUINamesThingies.Length; i++)
+        for (int i = 0; i < listOfMenues.Length; i++)
         {
             if (i == currentMenuItemID)
             {
                 if (listOfUIBools[i])
                 {
-                    listOfUINamesThingies[i].SetActive(false);
+                    listOfMenues[i].SetActive(false);
                     listOfUIBools[i] = false;
                 }
                 else if (!listOfUIBools[i])
                 {
-                    listOfUINamesThingies[i].SetActive(true);
+                    listOfMenues[i].SetActive(true);
                     listOfUIBools[i] = true;
                 }
             }
@@ -29,7 +29,7 @@ public class MenuScript : MonoBehaviour
             {
                 if (listOfUIBools[i])
                 {
-                    listOfUINamesThingies[i].SetActive(false);
+                    listOfMenues[i].SetActive(false);
                     listOfUIBools[i] = false;
                 }
             }

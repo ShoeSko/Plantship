@@ -7,6 +7,8 @@ public class GardenManager : MonoBehaviour
     public GameObject TestPlant;
 
     public List<GameObject> ActivePlantSpots = new List<GameObject>();
+    public List<GameObject> GardenUI = new List<GameObject>();
+    public List<GameObject> PlantCareUI = new List<GameObject>();
 
     public GameObject UINoSpace;
     public GameObject UINoMoney;
@@ -53,5 +55,18 @@ public class GardenManager : MonoBehaviour
         yield return new WaitForSeconds(2);
 
         UINoMoney.SetActive(false);
+    }
+
+    public void ChangeUI()
+    {
+        for(int i = 0; i < GardenUI.Count; i++)
+        {
+            GardenUI[i].SetActive(!GardenUI[i].activeSelf);
+        }
+
+        for (int i = 0; i < PlantCareUI.Count; i++)
+        {
+            PlantCareUI[i].SetActive(!PlantCareUI[i].activeSelf);
+        }
     }
 }

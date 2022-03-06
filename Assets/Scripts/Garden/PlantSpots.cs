@@ -31,6 +31,6 @@ public class PlantSpots : MonoBehaviour
 
     public void Buttest()//Switches to the plant management menu
     {
-        SceneManager.LoadScene("UI Testing");
+        GameObject.Find("GardenManager").GetComponent<GardenManager>().ChangeUI();
     }
 }

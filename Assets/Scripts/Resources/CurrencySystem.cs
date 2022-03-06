@@ -22,12 +22,14 @@ public class CurrencySystem : MonoBehaviour
     public void AddSoftCurrency(int AddValue)
     {
         //test
-        SoftCurrency += AddValue;
+        //SoftCurrency += AddValue;
+        SoftCurrency ++;
     }
 
     public void AddHardCurrency(int AddValue)
     {
         //test
-        HardCurrency += AddValue;
+        //HardCurrency += AddValue;
+        HardCurrency++;
     }
 }

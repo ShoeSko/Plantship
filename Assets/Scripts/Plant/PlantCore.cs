@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 [RequireComponent(typeof(SpriteRenderer))] //Makes sure the gameobject has the required components.
 public class PlantCore : MonoBehaviour
 {
@@ -32,7 +33,10 @@ public class PlantCore : MonoBehaviour
     private int _growthStage; //The value representation of the current stage (0 = seed, 3 = fully grown)
 
     private float waterStoredInPlant; //The amount of water this plant has been given(Lowers over time)
-    private float waterPlantCanStoreLimit; //The upper amount of wate this plant can store.
+    private float waterPlantCanStoreLimit = 50; //The upper amount of wate this plant can store.
+    private bool wateringIsInProgress; //Is the watering can being held?
+    private float wateringTickSpeed = 1f; //How fast will the watering take place.
+    private float wateringTimer; //Timer to limit water speed.
     #endregion
 
     #region Awake / Start
@@ -53,22 +57,75 @@ public class PlantCore : MonoBehaviour
     #region Update
     private void Update()
     {
-
+        if (wateringIsInProgress)
+        {
+            GainingWater();
+            timerForWater();
+        }
+        else
+        {
+            wateringTimer = 0; //Resets timer.
+            //Debug.Log("Button was released");
+        }
     }
     #endregion
 
     #region Watering
-    public void GainingWater(int wateringOption) //Plant gaining water.  (Watering option in case we want multiple watering levels)
+    private void GainingWater() //Plant gaining water.  (Watering option in case we want multiple watering levels)
     {
         if (FindObjectOfType<WaterSource>()) //Safety net to prevent code from trying to use WaterSource without finding it.
         {
             WaterSource water = FindObjectOfType<WaterSource>(); //Gives refrence to the water source as Water.
 
-            if(wateringOption == 1)
+            if(WaterSource.currentWaterStored > 0) //Is there water in the water source
             {
-                water.wateringPlant(wateringOption);
+                if(wateringTimer >= wateringTickSpeed) //Is the timer ready to water
+                {
+                    if(waterStoredInPlant < waterPlantCanStoreLimit) //Checks if the plant is filled with water
+                    {
+                        water.wateringPlant();
+                        waterStoredInPlant += 1; //Increase water by 1
+                        wateringTimer = 0; //Resets timer.
+
+                    //Debug.Log("Water is being stored at currently " + waterStoredInPlant);
+                    } 
+                }
+            }
+            else
+            {
+                Debug.Log("I am being held down but you ran out of water");
             }
         }
+
+    }
+
+    private void timerForWater() //Timer to limit the watering speed
+    {
+        if(wateringTimer <= wateringTickSpeed)
+        {
+            wateringTimer += Time.deltaTime;
+            //Debug.Log("Timer just reset");
+        }
+    }
+
+    /// <summary>
+    /// Activates watering of the plant as long as it is being held down.
+    /// </summary>
+    /// <param name="wateringCanObject"></param>
+    public void wateringCanIsBehingHeld(GameObject wateringCanObject)
+    {
+        wateringCanObject.SetActive(true); //Turns on visual can
+        wateringIsInProgress = true; //The watering is now in progress
+    }
+    
+    /// <summary>
+    /// Deactivates watering of the plant when it is released.
+    /// </summary>
+    /// <param name="wateringCanObject"></param>
+    public void WateringCanIsNotBeingHeld(GameObject wateringCanObject)
+    {
+        wateringCanObject.SetActive(false); //Turns off visual can
+        wateringIsInProgress = false; //The watering is no longer in progress
     }
     #endregion
     #region Sprite changing

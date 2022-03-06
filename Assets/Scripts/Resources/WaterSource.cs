@@ -46,25 +46,11 @@ public class WaterSource : MonoBehaviour
     }
 
 
-    public void wateringPlant(int amountOfWatering) //Used like this if we want multiple amounts one can water.
+    public void wateringPlant() //Used like this if we want multiple amounts one can water.
     {
-        if(amountOfWatering == 1)
-        {
-
-        }
-
-        if(amountOfWatering == 2)
-        {
-
-        }
-
-        if(amountOfWatering == 3)
-        {
-
-        }
+        currentWaterStored -= 1; //Decrease water by 1.
+        //Debug.Log("Noo my water decreased to " + currentWaterStored);
     }
-
-
 
     public GameObject[] listOfUINamesThingies;
     public bool[] listOfUIBools;

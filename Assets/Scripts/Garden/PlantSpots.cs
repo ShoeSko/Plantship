@@ -44,13 +44,13 @@ public class PlantSpots : MonoBehaviour
 
     public void InspectPlant()//Switches to the plant management menu
     {
+        gardenmanager.GetComponent<GardenManager>().MainPlant = plant;
+
         watercan = gardenmanager.GetComponent<GardenManager>().WaterCan;
         cam = gardenmanager.GetComponent<GardenManager>().PlantCam.gameObject;
 
         watercan.transform.position = transform.position + watercanOffset;
         cam.transform.position = transform.position + camOffset;
-
-        watercan.SetActive(true);
 
         gardenmanager.GetComponent<GardenManager>().ChangeUI();
     }

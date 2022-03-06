@@ -92,17 +92,17 @@ public class PlantCore : MonoBehaviour
 
                     //Debug.Log("Water is being stored at currently " + waterStoredInPlant);
                     }
-                    GameObject.Find("Watercan").SetActive(true); //Watering can object is turned off.
+                    GameObject.Find("Watercan").GetComponent<SpriteRenderer>().enabled = true; //Watering can object is turned off.
                 }
                 else
                 {
-                    GameObject.Find("Watercan").SetActive(false); //Watering can object is turned off.
+                    GameObject.Find("Watercan").GetComponent<SpriteRenderer>().enabled = false; //Watering can object is turned off.
                 }
             }
             else
             {
                 Debug.Log("I am being held down but you ran out of water");
-                GameObject.Find("Watercan").SetActive(false); //Watering can object is turned off.
+                GameObject.Find("Watercan").GetComponent<SpriteRenderer>().enabled = false; //Watering can object is turned off.
             }
         }
 
@@ -132,7 +132,7 @@ public class PlantCore : MonoBehaviour
     /// <param name="wateringCanObject"></param>
     public void WateringCanIsNotBeingHeld()
     {
-        GameObject.Find("Watercan").SetActive(false); //Watering can object is turned off.
+        GameObject.Find("Watercan").GetComponent<SpriteRenderer>().enabled = false; //Watering can object is turned off.
         WateringIsInProgress = false; //The watering is no longer in progress
     }
 

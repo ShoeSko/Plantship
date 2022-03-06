@@ -17,6 +17,16 @@ public class GardenManager : MonoBehaviour
     public GameObject UINoSpace;
     public GameObject UINoMoney;
 
+    [HideInInspector] public GameObject MainPlant;
+
+
+
+    private void Update()
+    {
+        if (MainPlant != null)
+            Debug.Log(MainPlant.name);
+    }
+
     public void BuyPlant()
     {
         if(CurrencySystem.SoftCurrency >= 5)
@@ -75,5 +85,24 @@ public class GardenManager : MonoBehaviour
 
         GardenCam.enabled = !GardenCam.enabled;
         PlantCam.enabled = !PlantCam.enabled;
+    }
+
+    /// <summary>
+    /// Activates watering of the plant as long as it is being held down.
+    /// </summary>
+    /// <param name="wateringCanObject"></param>
+    public void wateringCanIsBehingHeld()
+    {
+        MainPlant.GetComponent<PlantCore>().WateringIsInProgress = true; //The watering is now in progress
+    }
+
+    /// <summary>
+    /// Deactivates watering of the plant when it is released.
+    /// </summary>
+    /// <param name="wateringCanObject"></param>
+    public void WateringCanIsNotBeingHeld()
+    {
+        GameObject.Find("Watercan").GetComponent<SpriteRenderer>().enabled = false; //Watering can object is turned off.
+        MainPlant.GetComponent<PlantCore>().WateringIsInProgress = false; //The watering is no longer in progress
     }
 }

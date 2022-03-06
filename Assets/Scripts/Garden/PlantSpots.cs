@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class PlantSpots : MonoBehaviour
 {
-    public bool IsActive;
     public bool IsUsed;
     public GameObject PlantButton;
 
@@ -17,7 +16,7 @@ public class PlantSpots : MonoBehaviour
 
     private void Update()
     {
-        if (IsActive && IsUsed)
+        if (IsUsed)
         {
             PlantButton.SetActive(true);
         }
@@ -30,9 +29,8 @@ public class PlantSpots : MonoBehaviour
         IsUsed = true;
     }
 
-    public void Buttest()
+    public void Buttest()//Switches to the plant management menu
     {
-        Debug.Log("Hey");
         SceneManager.LoadScene("UI Testing");
     }
 }

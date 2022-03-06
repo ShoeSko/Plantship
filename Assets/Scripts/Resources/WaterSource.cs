@@ -24,7 +24,8 @@ public class WaterSource : MonoBehaviour
     #region Update
     private void Update()
     {
-        WaterLevelRepresentation();
+        if(waterLevelImage != null)
+            WaterLevelRepresentation();
     }
     #endregion
 
@@ -34,7 +35,6 @@ public class WaterSource : MonoBehaviour
         if(currentWaterStored < waterStorageLimit)
         {
             currentWaterStored += waterRegenerationRate;
-            Debug.Log("i added water: " + currentWaterStored);
         }
     }
 

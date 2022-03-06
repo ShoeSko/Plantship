@@ -10,22 +10,24 @@ public class CurrencySystem : MonoBehaviour
 
     public TextMeshProUGUI softcurrencyTEXT;
     public TextMeshProUGUI hardcurrencyTEXT;
+    public TextMeshProUGUI watercountTEXT;
 
     private void Update()
     {
         softcurrencyTEXT.text = "Soft Currency: " + SoftCurrency;
         hardcurrencyTEXT.text = "Hard Currency: " + HardCurrency;
+        watercountTEXT.text = "Water: " + WaterSource.currentWaterStored;
     }
 
     public void AddSoftCurrency(int AddValue)
     {
         //test
-        SoftCurrency++;
+        SoftCurrency += AddValue;
     }
 
     public void AddHardCurrency(int AddValue)
     {
         //test
-        HardCurrency++;
+        HardCurrency += AddValue;
     }
 }

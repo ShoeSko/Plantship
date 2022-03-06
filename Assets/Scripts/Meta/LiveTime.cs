@@ -75,7 +75,7 @@ public class LiveTime : MonoBehaviour
         BootOnce = true;
     }
 
-    void UnusedReferences()
+    void UnusedReferences()//Trashbin for codes that might have use later
     {
         //Debug.Log("It's now " + System.DateTime.Today);
         //string WhatTime = System.DateTime.Now.ToString("HH:MM:ss");

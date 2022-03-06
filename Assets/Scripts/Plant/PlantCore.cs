@@ -43,7 +43,6 @@ public class PlantCore : MonoBehaviour
     private float wateringTickSpeed = 0.5f; //How fast will the watering take place.
     private float wateringTimer; //Timer to limit water speed.
     #endregion
-
     #region Awake / Start
     private void Awake()
     {
@@ -208,7 +207,7 @@ public class PlantCore : MonoBehaviour
 
         if(growthStage != 0)
         {
-            spriteOfPlant.sprite = growthStages[growthStage]; //Since the plant has reached the stage, then change the sprite to the appropriate stage. 
+            spriteOfPlant.sprite = growthStages[--growthStage]; //Since the plant has reached the stage, then change the sprite to the appropriate stage. 
         }
         else
         {

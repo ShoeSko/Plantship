@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class GardenManager : MonoBehaviour
 {
+    public Camera GardenCam;
+    public Camera PlantCam;
+
     public GameObject TestPlant;
+    public GameObject WaterCan;
 
     public List<GameObject> ActivePlantSpots = new List<GameObject>();
     public List<GameObject> GardenUI = new List<GameObject>();
@@ -68,5 +72,8 @@ public class GardenManager : MonoBehaviour
         {
             PlantCareUI[i].SetActive(!PlantCareUI[i].activeSelf);
         }
+
+        GardenCam.enabled = !GardenCam.enabled;
+        PlantCam.enabled = !PlantCam.enabled;
     }
 }

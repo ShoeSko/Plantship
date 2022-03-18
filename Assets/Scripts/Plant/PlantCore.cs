@@ -20,6 +20,8 @@ public class PlantCore : MonoBehaviour
     [Header("Plant Stats")]
     [Tooltip("The 3 values the plant need to reach for i'ts progression")] private int[] ListprogressionCostOfPlant = new int[3]; //Gives a list of 3 ints, a range can be added(need to know the wanted values)
     [Tooltip("The tasks that the plant preffers, and will ask for")] private string[] preferencesOfPlant; //Gives a list to implement the preffered tasks, need to know what form the tasks will arrive in before it can be easier to use.
+    [Tooltip("The tasks that the plant preffers, and will ask for")] private string[] preferencesOfPlantNoMic; //Gives a list to implement the preffered tasks when Mic is disabled, need to know what form the tasks will arrive in before it can be easier to use.
+
 
     [Tooltip("The price of the plant when it can be aquired")] private int buyingPriceOfPlant; //Simple int for the price of buyig the plant
     [Tooltip("The price of the plant when it is fully grown and is to be sold")] private int sellingPriceOfPlant; //Simple int for the price of selling the plant
@@ -214,7 +216,7 @@ public class PlantCore : MonoBehaviour
             spriteOfPlant.sprite = _seed; //Sprite is now a seed.
         }
 
-        Debug.Log("Current stage is = " + growthStage + "and current sprite image is = " + spriteOfPlant.sprite.name);
+        Debug.Log("Current stage is = " + growthStage + "and current sprite image is = " + spriteOfPlant.sprite.name); //What is the current growth and the image associated with it.
     }
     #endregion
     #region Setting up plant
@@ -229,6 +231,7 @@ public class PlantCore : MonoBehaviour
 
         this.ListprogressionCostOfPlant = plantTemplate.progressionCostOfPlant; //Update the progression costs to be the ones from the template.
         this.preferencesOfPlant = plantTemplate.preferencesOfPlant; //Update the preferences to be the ones from the template.
+        this.preferencesOfPlantNoMic = plantTemplate.preferencesOfPlantNoMic; //Updates the preference to be the ones from the template when the Mic is disabled.
 
         this.buyingPriceOfPlant = plantTemplate.buyingPriceOfPlant; //Update the buy price to be the one from the template.
         this.sellingPriceOfPlant = plantTemplate.sellingPriceOfPlant; //Update the sell price to be the one from the template.

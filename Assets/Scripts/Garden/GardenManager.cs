@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GardenManager : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class GardenManager : MonoBehaviour
     public GameObject UINoSpace;
     public GameObject UINoMoney;
 
+    public Slider EXPSlider;
+    public Slider PlantWaterSlider;
+
     [HideInInspector] public GameObject MainPlant;
 
 
@@ -24,7 +28,16 @@ public class GardenManager : MonoBehaviour
     private void Update()
     {
         if (MainPlant != null)
+        {
             Debug.Log(MainPlant.name);
+
+            EXPSlider.maxValue = MainPlant.GetComponent<PlantCore>().NextMilestoneEXP;
+            EXPSlider.value = MainPlant.GetComponent<PlantCore>().currentGrowthValue;
+            EXPSlider.minValue = MainPlant.GetComponent<PlantCore>().PreviousMilestoneEXP;
+
+            PlantWaterSlider.maxValue = MainPlant.GetComponent<PlantCore>().waterPlantCanStoreLimit;
+            PlantWaterSlider.value = MainPlant.GetComponent<PlantCore>().waterStoredInPlant;
+        }
     }
 
     public void BuyPlant()

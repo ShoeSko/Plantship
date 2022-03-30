@@ -13,8 +13,8 @@ public class WaterSource : MonoBehaviour
 
     [SerializeField] private Image waterLevelImage; //Image to represent the water level.
 
-    [SerializeField] private float waterRegenerationRate = 48; //The rate water regenerates (Public/static later to be adjusted?)
-    [SerializeField] private float regenRateSpeed = 5; //How long(in seconds) between each tic for water regeneration.
+    private float waterRegenerationRate; //The rate water regenerates (Public/static later to be adjusted?)
+    private float regenRateSpeed = 10; //How long(in seconds) between each tic for water regeneration. (this should later be 10 minutes)
 
     public GameObject WaterObject;
     private Slider WaterSlider;
@@ -32,6 +32,8 @@ public class WaterSource : MonoBehaviour
     #region Update
     private void Update()
     {
+        waterRegenerationRate = WaterCap * 0.06f;//always regenerates 6% of water cap (putting this here makes sure it gets updated automatically)
+
         if(waterLevelImage != null)
             WaterLevelRepresentation();
 
@@ -58,7 +60,7 @@ public class WaterSource : MonoBehaviour
 
     public void wateringPlant() //Used like this if we want multiple amounts one can water.
     {
-        currentWaterStored -= 6; //Decrease water by 1.
+        currentWaterStored -= 1; //Decrease water in water can by 6 units.
         //Debug.Log("Noo my water decreased to " + currentWaterStored);
     }
 

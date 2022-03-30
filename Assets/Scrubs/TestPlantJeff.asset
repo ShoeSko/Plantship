@@ -17,7 +17,8 @@ MonoBehaviour:
   growthStage1: {fileID: 21300000, guid: dd8a9b22632cd0242a8deebfe66ee13c, type: 3}
   growthStage2: {fileID: 21300000, guid: dd8a9b22632cd0242a8deebfe66ee13c, type: 3}
   fullyGrown: {fileID: 21300000, guid: dd8a9b22632cd0242a8deebfe66ee13c, type: 3}
-  progressionCostOfPlant: 0a000000140000001e000000
+  progressionCostOfPlant: 120000002400000036000000
   preferencesOfPlant: []
+  preferencesOfPlantNoMic: []
   buyingPriceOfPlant: 5
   sellingPriceOfPlant: 2

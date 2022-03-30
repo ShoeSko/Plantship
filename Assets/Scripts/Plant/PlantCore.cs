@@ -18,7 +18,7 @@ public class PlantCore : MonoBehaviour
     [Tooltip("The sprite that represent the fully grown plant")] private Sprite fullyGrown;
 
     [Header("Plant Stats")]
-    [Tooltip("The 3 values the plant need to reach for i'ts progression")] private int[] ListprogressionCostOfPlant = new int[3]; //Gives a list of 3 ints, a range can be added(need to know the wanted values)
+    [HideInInspector] [Tooltip("The 3 values the plant need to reach for i'ts progression")] public int[] ListprogressionCostOfPlant = new int[3]; //Gives a list of 3 ints, a range can be added(need to know the wanted values)
     [Tooltip("The tasks that the plant preffers, and will ask for")] private string[] preferencesOfPlant; //Gives a list to implement the preffered tasks, need to know what form the tasks will arrive in before it can be easier to use.
     [Tooltip("The tasks that the plant preffers, and will ask for")] private string[] preferencesOfPlantNoMic; //Gives a list to implement the preffered tasks when Mic is disabled, need to know what form the tasks will arrive in before it can be easier to use.
 
@@ -31,19 +31,24 @@ public class PlantCore : MonoBehaviour
 
     private int growthStageAmount = 3; //Sets a definit value on the amount of stages a plant transforms into. Seed is the base and turns into = (stage 1, stage 2 & Fully grown)
 
-    [SerializeField] private int currentGrowthValue; //!!Serialized for Testing!! The value of the plants current progression. (can be used to determine growth stage) 
+    [HideInInspector] public int currentGrowthValue; //!!Serialized for Testing!! The value of the plants current progression. (can be used to determine growth stage) 
     [SerializeField] private int growthRate = 1; //The amount it tic grows.
-    [SerializeField] private float growthSpeed = 2f; //The speed it tic grows
+    [SerializeField] private float growthSpeed = 1f; //The speed it tic grows
 
     private int growthStage; //The value representation of the current stage (0 = seed, 3 = fully grown)
 
-    private int waterStoredInPlant; //The amount of water this plant has been given(Lowers over time)
+    [HideInInspector] public int waterStoredInPlant; //The amount of water this plant has been given(Lowers over time)
 
-    private float waterPlantCanStoreLimit = 50; //The upper amount of wate this plant can store. This should be changeable?
+    [HideInInspector] public float waterPlantCanStoreLimit = 200; //The upper amount of wate this plant can store. This should be changeable?
 
     [HideInInspector] public bool WateringIsInProgress; //Is the watering can being held?
-    private float wateringTickSpeed = 0.5f; //How fast will the watering take place.
+    private float wateringTickSpeed = 0.1f; //How fast will the watering take place.
     private float wateringTimer; //Timer to limit water speed.
+
+    [HideInInspector] public int NextMilestoneEXP;
+    [HideInInspector] public int PreviousMilestoneEXP;
+
+    private bool CheckGrowth = true;
     #endregion
     #region Awake / Start
     private void Awake()
@@ -73,8 +78,10 @@ public class PlantCore : MonoBehaviour
             wateringTimer = 0; //Resets timer.
             //Debug.Log("Button was released");
         }
+        
+        if(CheckGrowth)
+            GrowingPlant(); //Growing power of plant!
 
-        GrowingPlant(); //Growing power of plant!
         CheckForMilestone(); //Checks if milestones have been reached (Robust for Prototype)
     }
     #endregion
@@ -152,27 +159,42 @@ public class PlantCore : MonoBehaviour
         if(waterStoredInPlant > 0) //Only takes effect if there is water!!!
         {
             StartCoroutine(PlantGowing());
+            StartCoroutine(ConsumeWater());
+
+            CheckGrowth = false;
         }
     }
     
     IEnumerator PlantGowing()
     {
+        Debug.Log("I did PlantGowing");
         yield return new WaitForSeconds(growthSpeed);
         if (waterStoredInPlant > 0)
         {
-            --waterStoredInPlant;
             currentGrowthValue += growthRate; //Increases progression, add modifiers for growth rate later?
             StartCoroutine(PlantGowing()); //Reruns the program.
         }
         else
         {
             Debug.Log(gameObject.name + " ran out of water ;(");
+            CheckGrowth = true;
         }
     }
 
-    #endregion
-    #region Milestone Reach
-    private void CheckForMilestone()
+    IEnumerator ConsumeWater()
+    {
+        yield return new WaitForSeconds(2.4f);//This number should be 144 in the final product
+        --waterStoredInPlant;
+
+        if(waterStoredInPlant > 0)
+        {
+            StartCoroutine(ConsumeWater());
+        }
+    }
+
+        #endregion
+        #region Milestone Reach
+        private void CheckForMilestone()
     {
         if(currentGrowthValue >= ListprogressionCostOfPlant[2]) //Checks if the progression has reached the laststage.
         {
@@ -187,7 +209,9 @@ public class PlantCore : MonoBehaviour
             if(growthStage != 2) //Checks if it has not already changed stage
             {
             growthStage = 2; //Sets the growthStage to stage 2
-            PlantSpriteChange(); //Update sprite to the new plant form.
+                NextMilestoneEXP = ListprogressionCostOfPlant[2];
+                PreviousMilestoneEXP = ListprogressionCostOfPlant[1];
+                PlantSpriteChange(); //Update sprite to the new plant form.
             }
         }
         else if(currentGrowthValue >= ListprogressionCostOfPlant[0]) //Check if the progression has reached the second stage.
@@ -195,8 +219,14 @@ public class PlantCore : MonoBehaviour
             if(growthStage != 1) //Checks if it has not already changed stage
             {
             growthStage = 1; //Sets the growthStage to stage 1
-            PlantSpriteChange(); //Update sprite to the new plant form.
+                NextMilestoneEXP = ListprogressionCostOfPlant[1];
+                PreviousMilestoneEXP = ListprogressionCostOfPlant[0];
+                PlantSpriteChange(); //Update sprite to the new plant form.
             }
+        }
+        else if(growthStage == 0)
+        {
+            NextMilestoneEXP = ListprogressionCostOfPlant[0];
         }
     }
     #endregion

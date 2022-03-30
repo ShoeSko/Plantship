@@ -12,6 +12,14 @@ public class CurrencySystem : MonoBehaviour
     public TextMeshProUGUI hardcurrencyTEXT;
     public TextMeshProUGUI watercountTEXT;
 
+
+    private void Start()
+    {
+        //Test thingy for build
+        SoftCurrency = 200;
+        HardCurrency = 50;
+    }
+
     private void Update()
     {
         softcurrencyTEXT.text = "Soft Currency: " + SoftCurrency;

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "New Plant", menuName = "Create Plant")]
 public class PlantDesigner : ScriptableObject
@@ -19,6 +20,6 @@ public class PlantDesigner : ScriptableObject
     [Tooltip("The tasks that the plant preffers, and will ask for")] public string[] preferencesOfPlantNoMic; //Gives a list to implement the preffered tasks when Mic is disabled, need to know what form the tasks will arrive in before it can be easier to use.
 
     [Tooltip("The price of the plant when it can be aquired")] public int buyingPriceOfPlant; //Simple int for the price of buyig the plant
-    [Tooltip("The price of the plant when it is fully grown and is to be sold")] public int sellingPriceOfPlant; //Simple int for the price of selling the plant
+    [Tooltip("The price of the plant when it is fully grown and is to be sold")] public List<int> sellingPriceOfPlant = new List<int>(); //Simple int for the price of selling the plant
     #endregion
 }

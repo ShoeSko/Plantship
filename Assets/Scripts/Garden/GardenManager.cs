@@ -14,15 +14,20 @@ public class GardenManager : MonoBehaviour
     public List<GameObject> ActivePlantSpots = new List<GameObject>();
     public List<GameObject> GardenUI = new List<GameObject>();
     public List<GameObject> PlantCareUI = new List<GameObject>();
+    public List<GameObject> SaveOrSellUI = new List<GameObject>();
 
     public GameObject UINoSpace;
     public GameObject UINoMoney;
+    public GameObject PlantAction;
+    public GameObject SellButton;
 
     public Slider EXPSlider;
     public Slider PlantWaterSlider;
 
     [HideInInspector] public GameObject MainPlant;
+    [HideInInspector] public GameObject Spot;
 
+    private bool plantactionActive;
 
 
     private void Update()
@@ -37,12 +42,23 @@ public class GardenManager : MonoBehaviour
 
             PlantWaterSlider.maxValue = MainPlant.GetComponent<PlantCore>().waterPlantCanStoreLimit;
             PlantWaterSlider.value = MainPlant.GetComponent<PlantCore>().waterStoredInPlant;
+
+            if(MainPlant.GetComponent<PlantCore>().Stage == 3)
+            {
+                PlantAction.SetActive(true);
+                SellButton.SetActive(true);
+            }
+            else
+            {
+                PlantAction.SetActive(false);
+                SellButton.SetActive(false);
+            }
         }
     }
 
     public void BuyPlant()
     {
-        if(CurrencySystem.SoftCurrency >= 5)
+        if(CurrencySystem.SoftCurrency >= 100)
         {
             for (int i = 0; i < ActivePlantSpots.Count; i++)
             {
@@ -50,7 +66,7 @@ public class GardenManager : MonoBehaviour
                 {
                     ActivePlantSpots[i].GetComponent<PlantSpots>().ActivePlant = TestPlant;
                     ActivePlantSpots[i].GetComponent<PlantSpots>().PlacePlant();
-                    CurrencySystem.SoftCurrency -= 5;
+                    CurrencySystem.SoftCurrency -= 100;
 
                     i = ActivePlantSpots.Count;//stop the loop
                 }
@@ -117,5 +133,28 @@ public class GardenManager : MonoBehaviour
     {
         GameObject.Find("Watercan").GetComponent<SpriteRenderer>().enabled = false; //Watering can object is turned off.
         MainPlant.GetComponent<PlantCore>().WateringIsInProgress = false; //The watering is no longer in progress
+    }
+
+    public void PlantActionButton()
+    {
+        plantactionActive = !plantactionActive;
+        for (int i = 0; i < SaveOrSellUI.Count; i++)
+        {
+            SaveOrSellUI[i].SetActive(!SaveOrSellUI[i].activeSelf);
+        }
+    }
+
+    public void SellPlant()
+    {
+        CurrencySystem.SoftCurrency += MainPlant.GetComponent<PlantCore>().CurrentSellValue;
+        if(plantactionActive)
+            PlantActionButton();
+        Spot.GetComponent<PlantSpots>().PlantSold();
+        ChangeUI();
+    }
+
+    public void SavePlant()
+    {
+        //Include code for adding plant to private garden
     }
 }

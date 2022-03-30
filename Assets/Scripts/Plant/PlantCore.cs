@@ -24,7 +24,7 @@ public class PlantCore : MonoBehaviour
 
 
     [Tooltip("The price of the plant when it can be aquired")] private int buyingPriceOfPlant; //Simple int for the price of buyig the plant
-    [Tooltip("The price of the plant when it is fully grown and is to be sold")] private int sellingPriceOfPlant; //Simple int for the price of selling the plant
+    [HideInInspector] [Tooltip("The price of the plant when it is fully grown and is to be sold")] private List<int> sellingPriceOfPlant; //Simple int for the price of selling the plant
     #endregion
     #region Other Variables
     private SpriteRenderer spriteOfPlant; //Refrence to the plants spriterenderer.
@@ -35,7 +35,8 @@ public class PlantCore : MonoBehaviour
     [SerializeField] private int growthRate = 1; //The amount it tic grows.
     [SerializeField] private float growthSpeed = 1f; //The speed it tic grows
 
-    private int growthStage; //The value representation of the current stage (0 = seed, 3 = fully grown)
+    [HideInInspector] public int growthStage; //The value representation of the current stage (0 = seed, 3 = fully grown)
+    [HideInInspector] public int Stage; //The value representation of the current stage (0 = seed, 3 = fully grown)
 
     [HideInInspector] public int waterStoredInPlant; //The amount of water this plant has been given(Lowers over time)
 
@@ -47,6 +48,8 @@ public class PlantCore : MonoBehaviour
 
     [HideInInspector] public int NextMilestoneEXP;
     [HideInInspector] public int PreviousMilestoneEXP;
+
+    [HideInInspector] public int CurrentSellValue;
 
     private bool CheckGrowth = true;
     #endregion
@@ -68,6 +71,9 @@ public class PlantCore : MonoBehaviour
     #region Update
     private void Update()
     {
+        Debug.Log("Growth Stage = " + Stage);
+        CurrentSellValue = sellingPriceOfPlant[Stage];
+
         if (WateringIsInProgress)
         {
             GainingWater();
@@ -200,15 +206,19 @@ public class PlantCore : MonoBehaviour
         {
             if(growthStage != 3) //Checks that it has not already changed stage
             {
-            growthStage = 3; //Sets the growthStage to Full grown
-            PlantSpriteChange(); //Update sprite to the new plant form.
+                Stage = 3;
+                Debug.Log("IM AT STAGE 3");
+                growthStage = 3; //Sets the growthStage to Full grown
+                PlantSpriteChange(); //Update sprite to the new plant form.
             }
         }
         else if(currentGrowthValue >= ListprogressionCostOfPlant[1]) //Check if the progression has reached the second stage.
         {
             if(growthStage != 2) //Checks if it has not already changed stage
             {
-            growthStage = 2; //Sets the growthStage to stage 2
+                Stage = 2;
+                Debug.Log("IM AT STAGE 2");
+                growthStage = 2; //Sets the growthStage to stage 2
                 NextMilestoneEXP = ListprogressionCostOfPlant[2];
                 PreviousMilestoneEXP = ListprogressionCostOfPlant[1];
                 PlantSpriteChange(); //Update sprite to the new plant form.
@@ -218,7 +228,9 @@ public class PlantCore : MonoBehaviour
         {
             if(growthStage != 1) //Checks if it has not already changed stage
             {
-            growthStage = 1; //Sets the growthStage to stage 1
+                Stage = 1;
+                Debug.Log("IM AT STAGE 1");
+                growthStage = 1; //Sets the growthStage to stage 1
                 NextMilestoneEXP = ListprogressionCostOfPlant[1];
                 PreviousMilestoneEXP = ListprogressionCostOfPlant[0];
                 PlantSpriteChange(); //Update sprite to the new plant form.
@@ -226,6 +238,8 @@ public class PlantCore : MonoBehaviour
         }
         else if(growthStage == 0)
         {
+            Stage = 0;
+            Debug.Log("IM AT STAGE 0");
             NextMilestoneEXP = ListprogressionCostOfPlant[0];
         }
     }

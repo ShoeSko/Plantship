@@ -19,6 +19,7 @@ public class PlantSpots : MonoBehaviour
     private Vector3 camOffset = new Vector3(0, 2.39f, -35);
 
     [HideInInspector] public GameObject ActivePlant;
+    [HideInInspector] public GameObject ActiveSpot;
 
     private void Start()
     {
@@ -45,6 +46,7 @@ public class PlantSpots : MonoBehaviour
     public void InspectPlant()//Switches to the plant management menu
     {
         gardenmanager.GetComponent<GardenManager>().MainPlant = plant;
+        gardenmanager.GetComponent<GardenManager>().Spot = this.gameObject;
 
         watercan = gardenmanager.GetComponent<GardenManager>().WaterCan;
         cam = gardenmanager.GetComponent<GardenManager>().PlantCam.gameObject;
@@ -53,5 +55,11 @@ public class PlantSpots : MonoBehaviour
         cam.transform.position = transform.position + camOffset;
 
         gardenmanager.GetComponent<GardenManager>().ChangeUI();
+    }
+
+    public void PlantSold()
+    {
+        Destroy(plant);
+        IsUsed = false;
     }
 }

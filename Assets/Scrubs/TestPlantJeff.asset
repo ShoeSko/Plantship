@@ -20,5 +20,5 @@ MonoBehaviour:
   progressionCostOfPlant: 120000002400000036000000
   preferencesOfPlant: []
   preferencesOfPlantNoMic: []
-  buyingPriceOfPlant: 5
-  sellingPriceOfPlant: 2
+  buyingPriceOfPlant: 100
+  sellingPriceOfPlant: 6400000096000000f500000072010000

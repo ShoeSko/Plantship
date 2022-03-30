@@ -1,9 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MicInput : MonoBehaviour
 {
+    #region Test Variables
+    [SerializeField] private GameObject TestButton;
+    [SerializeField] private Slider volumeSlider;
+    #endregion
+
 
     public float testSound;
     public static float MicLoudness;
@@ -16,16 +22,21 @@ public class MicInput : MonoBehaviour
     {
         if (_device == null)
         {
+            TestButton.GetComponent<Image>().color = Color.red; //Sets button colour to red.
+
             _device = Microphone.devices[0];
             _device = null;
-            _clipRecord = Microphone.Start(_device, true, 999, 44100);
+            _clipRecord = Microphone.Start(_device, true, 999, 1000);
             Debug.Log(_clipRecord);
         }
     }
 
     void StopMicrophone()
+
     {
         Microphone.End(_device);
+
+        TestButton.GetComponent<Image>().color = Color.green; //Sets button colour to Green
     }
 
     float LevelMax()
@@ -53,41 +64,55 @@ public class MicInput : MonoBehaviour
     {
         MicLoudness = LevelMax();
         testSound = MicLoudness;
+        volumeSlider.value = MicLoudness;
 
     }
 
-    void OnEnable()
-    {
-        InitMic();
-        _isInitialized = true;
-    }
+    //void OnEnable()
+    //{
+    //    InitMic();
+    //    _isInitialized = true;
+    //}
 
-    void OnDisable()
+    public void ActivateVolumeRecording()
     {
-        StopMicrophone();
-    }
-
-    void OnDestory()
-    {
-        StopMicrophone();
-    }
-
-    void OnApplicationFocus(bool focus)
-    {
-        if (focus)
+        if (!_isInitialized)
         {
-            if (!_isInitialized)
-            {
-                InitMic();
-                _isInitialized = true;
-            }
+            InitMic();
+            _isInitialized = true;
         }
-
-        if (!focus)
+        else if (_isInitialized)
         {
             StopMicrophone();
             _isInitialized = false;
         }
     }
 
+    //void OnDisable()
+    //{
+    //    StopMicrophone();
+    //}
+
+    void OnDestory()
+    {
+        StopMicrophone();
+    }
+
+    //void OnApplicationFocus(bool focus)
+    //{
+    //    if (focus)
+    //    {
+    //        if (!_isInitialized)
+    //        {
+    //            InitMic();
+    //            _isInitialized = true;
+    //        }
+    //    }
+
+    //    if (!focus)
+    //    {
+    //        StopMicrophone();
+    //        _isInitialized = false;
+    //    }
+    //}
 }

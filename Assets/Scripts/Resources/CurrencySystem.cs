@@ -16,7 +16,7 @@ public class CurrencySystem : MonoBehaviour
     private void Start()
     {
         //Test thingy for build
-        SoftCurrency = 200;
+        SoftCurrency = 300;
         HardCurrency = 50;
     }
 

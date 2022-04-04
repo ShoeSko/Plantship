@@ -8,7 +8,6 @@ public class WaterSource : MonoBehaviour
     #region Variables
     [HideInInspector] public static float currentWaterStored; //The current amount of water stored
     [HideInInspector] public static float WaterCap = 800; //The current amount of water stored
-    [SerializeField] private int waterStorageLimit; //Upper limit of water storage (To be increased with the correct upgrades)
 
 
     [SerializeField] private Image waterLevelImage; //Image to represent the water level.
@@ -44,15 +43,21 @@ public class WaterSource : MonoBehaviour
 
     private void WaterRegeneration()
     {
-        if(currentWaterStored < waterStorageLimit)
+        if(currentWaterStored < WaterCap)
         {
-            currentWaterStored += waterRegenerationRate;
+            for(float water = 0; water < waterRegenerationRate; water++)
+            {
+                if(currentWaterStored < WaterCap)
+                {
+                    currentWaterStored++;
+                }
+            }
         }
     }
 
     private void WaterLevelRepresentation()
     {
-        float waterFillLevel = currentWaterStored / waterStorageLimit; //Gives a value of how much water is stored compared to the max limit.
+        float waterFillLevel = currentWaterStored / WaterCap; //Gives a value of how much water is stored compared to the max limit.
 
         waterLevelImage.fillAmount = waterFillLevel; //Changes the water image indicator to portray a level similair to the amount currently stored.
     }
@@ -94,5 +99,4 @@ public class WaterSource : MonoBehaviour
             }
         }
     }
-
 }

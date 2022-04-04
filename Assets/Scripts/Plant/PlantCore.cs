@@ -24,6 +24,7 @@ public class PlantCore : MonoBehaviour
 
 
     [Tooltip("The price of the plant when it can be aquired")] private int buyingPriceOfPlant; //Simple int for the price of buyig the plant
+    [Tooltip("The price of the plant when it can be aquired")] private float plantWaterConsumptionRate; //Simple int for the price of buyig the plant
     [HideInInspector] [Tooltip("The price of the plant when it is fully grown and is to be sold")] private List<int> sellingPriceOfPlant; //Simple int for the price of selling the plant
     #endregion
     #region Other Variables
@@ -38,7 +39,7 @@ public class PlantCore : MonoBehaviour
     [HideInInspector] public int growthStage; //The value representation of the current stage (0 = seed, 3 = fully grown)
     [HideInInspector] public int Stage; //The value representation of the current stage (0 = seed, 3 = fully grown)
 
-    [HideInInspector] public int waterStoredInPlant; //The amount of water this plant has been given(Lowers over time)
+    [HideInInspector] public float waterStoredInPlant; //The amount of water this plant has been given(Lowers over time)
 
     [HideInInspector] public float waterPlantCanStoreLimit = 200; //The upper amount of wate this plant can store. This should be changeable?
 
@@ -189,8 +190,8 @@ public class PlantCore : MonoBehaviour
 
     IEnumerator ConsumeWater()
     {
-        yield return new WaitForSeconds(2.4f);//This number should be 144 in the final product
-        --waterStoredInPlant;
+        yield return new WaitForSeconds(1f);//This number should be 144 in the final product
+        waterStoredInPlant -= plantWaterConsumptionRate;
 
         if(waterStoredInPlant > 0)
         {
@@ -279,6 +280,7 @@ public class PlantCore : MonoBehaviour
 
         this.buyingPriceOfPlant = plantTemplate.buyingPriceOfPlant; //Update the buy price to be the one from the template.
         this.sellingPriceOfPlant = plantTemplate.sellingPriceOfPlant; //Update the sell price to be the one from the template.
+        this.plantWaterConsumptionRate = plantTemplate.PlantWaterConsumption;
     }
     #endregion
 }

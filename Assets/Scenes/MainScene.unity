@@ -4777,7 +4777,7 @@ MonoBehaviour:
   UINoSpace: {fileID: 1040453077}
   UINoMoney: {fileID: 2055226368}
   PlantAction: {fileID: 197098071}
-  SellButton: {fileID: 0}
+  SellButton: {fileID: 316599049}
   EXPSlider: {fileID: 162186421}
   PlantWaterSlider: {fileID: 1894741180}
   MainPlant: {fileID: 0}

@@ -26,7 +26,7 @@ public class MicrophoneTester : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(Microphone.GetPosition(null));
-        Debug.Log(Microphone.IsRecording(null));
+        //Debug.Log(Microphone.GetPosition(null));
+        //Debug.Log(Microphone.IsRecording(null));
     }
 }

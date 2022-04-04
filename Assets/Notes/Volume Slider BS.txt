@@ -1,0 +1,10 @@
+Slider value BS !!!!!
+
+Value range MAX = 0.47536
+
+Value range LOWEST= 0.02464
+
+Value Range Difference 0-0.04928 (How far it is between the walls)
+		60 width on Handle.
+
+

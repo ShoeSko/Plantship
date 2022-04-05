@@ -22,6 +22,7 @@ public class PlantDesigner : ScriptableObject
     [Tooltip("The tasks that the plant preffers, and will ask for")] public float PlantWaterConsumption; //Currently expected to be static, but allows for experimentation later
 
     [Tooltip("The price of the plant when it can be aquired")] public int buyingPriceOfPlant; //Simple int for the price of buyig the plant
-    [Tooltip("The price of the plant when it is fully grown and is to be sold")] public List<int> sellingPriceOfPlant = new List<int>(); //Simple int for the price of selling the plant
+    [Tooltip("The price of the plant at different stages from 0-3")] public List<int> sellingPriceOfPlant = new List<int>(); //Simple int for the price of selling the plant
+    [Tooltip("Required affection to reach various milestones on the relationship meter")] public List<int> RelationshipMilestones = new List<int>(); //Goals to level up this plant's relationship meter
     #endregion
 }

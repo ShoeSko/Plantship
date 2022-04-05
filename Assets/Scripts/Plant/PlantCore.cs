@@ -22,10 +22,11 @@ public class PlantCore : MonoBehaviour
     [Tooltip("The tasks that the plant preffers, and will ask for")] private string[] preferencesOfPlant; //Gives a list to implement the preffered tasks, need to know what form the tasks will arrive in before it can be easier to use.
     [Tooltip("The tasks that the plant preffers, and will ask for")] private string[] preferencesOfPlantNoMic; //Gives a list to implement the preffered tasks when Mic is disabled, need to know what form the tasks will arrive in before it can be easier to use.
 
-
     [Tooltip("The price of the plant when it can be aquired")] private int buyingPriceOfPlant; //Simple int for the price of buyig the plant
     [Tooltip("The price of the plant when it can be aquired")] private float plantWaterConsumptionRate; //Simple int for the price of buyig the plant
     [HideInInspector] [Tooltip("The price of the plant when it is fully grown and is to be sold")] private List<int> sellingPriceOfPlant; //Simple int for the price of selling the plant
+    
+    [HideInInspector] [Tooltip("Required affection to reach various milestones on the relationship meter")] private List<int> relationshipMilestones; //Simple int for the price of selling the plant
     #endregion
     #region Other Variables
     private SpriteRenderer spriteOfPlant; //Refrence to the plants spriterenderer.
@@ -35,14 +36,12 @@ public class PlantCore : MonoBehaviour
     [HideInInspector] public int currentGrowthValue; //!!Serialized for Testing!! The value of the plants current progression. (can be used to determine growth stage) 
     [SerializeField] private int growthRate = 1; //The amount it tic grows.
     [SerializeField] private float growthSpeed = 1f; //The speed it tic grows
-
     [HideInInspector] public int growthStage; //The value representation of the current stage (0 = seed, 3 = fully grown)
     [HideInInspector] public int Stage; //The value representation of the current stage (0 = seed, 3 = fully grown)
+    private bool CheckGrowth = true;
 
     [HideInInspector] public float waterStoredInPlant; //The amount of water this plant has been given(Lowers over time)
-
     [HideInInspector] public float waterPlantCanStoreLimit = 200; //The upper amount of wate this plant can store. This should be changeable?
-
     [HideInInspector] public bool WateringIsInProgress; //Is the watering can being held?
     private float wateringTickSpeed = 0.1f; //How fast will the watering take place.
     private float wateringTimer; //Timer to limit water speed.
@@ -52,7 +51,10 @@ public class PlantCore : MonoBehaviour
 
     [HideInInspector] public int CurrentSellValue;
 
-    private bool CheckGrowth = true;
+    [HideInInspector] public int AffectionLevel;//Current level of this plant's affection
+    [HideInInspector] public int Affection;//Relationship "experience points", determine the AffectionLevel
+
+
     #endregion
     #region Awake / Start
     private void Awake()
@@ -90,6 +92,8 @@ public class PlantCore : MonoBehaviour
             GrowingPlant(); //Growing power of plant!
 
         CheckForMilestone(); //Checks if milestones have been reached (Robust for Prototype)
+
+        //ReadRelationshipMeter();
     }
     #endregion
 
@@ -264,6 +268,21 @@ public class PlantCore : MonoBehaviour
         Debug.Log("Current stage is = " + growthStage + "and current sprite image is = " + spriteOfPlant.sprite.name); //What is the current growth and the image associated with it.
     }
     #endregion
+
+    #region Affection
+
+    /*
+    private void ReadRelationshipMeter()
+    {
+        if(Affection <= relationshipMilestones[AffectionLevel])
+        {
+            AffectionLevel++;
+        }
+    }
+    */
+
+    #endregion
+
     #region Setting up plant
     private void PlantInfoFeed() //To be run first. Updates the variables of the script to fit the given template
     {
@@ -281,6 +300,8 @@ public class PlantCore : MonoBehaviour
         this.buyingPriceOfPlant = plantTemplate.buyingPriceOfPlant; //Update the buy price to be the one from the template.
         this.sellingPriceOfPlant = plantTemplate.sellingPriceOfPlant; //Update the sell price to be the one from the template.
         this.plantWaterConsumptionRate = plantTemplate.PlantWaterConsumption;
+
+        this.relationshipMilestones = plantTemplate.RelationshipMilestones;
     }
     #endregion
 }

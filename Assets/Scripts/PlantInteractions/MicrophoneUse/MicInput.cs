@@ -16,7 +16,7 @@ public class MicInput : MonoBehaviour
     private string _device;
     private AudioClip _clipRecord;
     private int _sampleWindow = 128;
-    private bool _isInitialized;
+    [HideInInspector] public bool _isInitialized;
 
     void InitMic()
     {
@@ -74,6 +74,9 @@ public class MicInput : MonoBehaviour
     //    _isInitialized = true;
     //}
 
+    /// <summary>
+    /// Activates recording of volume.
+    /// </summary>
     public void ActivateVolumeRecording()
     {
         if (!_isInitialized)

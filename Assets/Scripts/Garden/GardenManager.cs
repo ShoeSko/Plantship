@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GardenManager : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class GardenManager : MonoBehaviour
     public List<GameObject> GardenUI = new List<GameObject>();
     public List<GameObject> PlantCareUI = new List<GameObject>();
     public List<GameObject> SaveOrSellUI = new List<GameObject>();
+    public GameObject SellConfirmation;
+    public TextMeshProUGUI SellDescription;
 
     public GameObject UINoSpace;
     public GameObject UINoMoney;
@@ -51,6 +54,8 @@ public class GardenManager : MonoBehaviour
             {
                 PlantAction.SetActive(false);
             }
+
+            SellDescription.text = "Are you sure you want to sell " + MainPlant.GetComponent<PlantCore>().nameOfPlant + " for " + MainPlant.GetComponent<PlantCore>().CurrentSellValue + " coins?";
         }
     }
 
@@ -142,11 +147,17 @@ public class GardenManager : MonoBehaviour
         }
     }
 
+    public void AskSellConfirmation()
+    {
+        SellConfirmation.SetActive(!SellConfirmation.activeSelf);//Toggle active
+    }
+
     public void SellPlant()
     {
         CurrencySystem.SoftCurrency += MainPlant.GetComponent<PlantCore>().CurrentSellValue;
         if(plantactionActive)
             PlantActionButton();
+        SellConfirmation.SetActive(false);
         Spot.GetComponent<PlantSpots>().PlantSold();
         ChangeUI();
     }

@@ -9,7 +9,7 @@ public class PlantCore : MonoBehaviour
     public PlantDesigner plantTemplate;
 
     [Header("Plant Looks")]
-    [Tooltip("The name the plant will go by")] private string nameOfPlant; //Simple now, could future work add list of potential names to choose from instead.
+    [HideInInspector][Tooltip("The name the plant will go by")] public string nameOfPlant; //Simple now, could future work add list of potential names to choose from instead.
 
     //In the scenario plants had different amount of stages, this would be a list instead of 4 separate sprites.
     [Tooltip("The sprite that represent the seed form of the plant")] private Sprite _seed;

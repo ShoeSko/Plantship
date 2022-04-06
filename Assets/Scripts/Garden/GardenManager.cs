@@ -46,12 +46,10 @@ public class GardenManager : MonoBehaviour
             if(MainPlant.GetComponent<PlantCore>().Stage == 3)
             {
                 PlantAction.SetActive(true);
-                SellButton.SetActive(true);
             }
             else
             {
                 PlantAction.SetActive(false);
-                SellButton.SetActive(false);
             }
         }
     }

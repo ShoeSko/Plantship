@@ -27,6 +27,9 @@ public class PlantCore : MonoBehaviour
     [HideInInspector] [Tooltip("The price of the plant when it is fully grown and is to be sold")] private List<int> sellingPriceOfPlant; //Simple int for the price of selling the plant
     
     [HideInInspector] [Tooltip("Required affection to reach various milestones on the relationship meter")] private List<int> relationshipMilestones; //Simple int for the price of selling the plant
+
+    private Sprite dryPot;
+    private Sprite wetPot;
     #endregion
     #region Other Variables
     private SpriteRenderer spriteOfPlant; //Refrence to the plants spriterenderer.
@@ -39,6 +42,7 @@ public class PlantCore : MonoBehaviour
     [HideInInspector] public int growthStage; //The value representation of the current stage (0 = seed, 3 = fully grown)
     [HideInInspector] public int Stage; //The value representation of the current stage (0 = seed, 3 = fully grown)
     private bool CheckGrowth = true;
+    private GameObject plantPot;
 
     [HideInInspector] public float waterStoredInPlant; //The amount of water this plant has been given(Lowers over time)
     [HideInInspector] public float waterPlantCanStoreLimit = 200; //The upper amount of wate this plant can store. This should be changeable?
@@ -68,7 +72,7 @@ public class PlantCore : MonoBehaviour
 
     private void Start()
     {
-        
+        plantPot = transform.Find("PlantPot").gameObject;
     }
     #endregion
     #region Update
@@ -169,6 +173,7 @@ public class PlantCore : MonoBehaviour
     {
         if(waterStoredInPlant > 0) //Only takes effect if there is water!!!
         {
+            plantPot.GetComponent<SpriteRenderer>().sprite = wetPot;
             StartCoroutine(PlantGowing());
             StartCoroutine(ConsumeWater());
 
@@ -188,6 +193,7 @@ public class PlantCore : MonoBehaviour
         else
         {
             Debug.Log(gameObject.name + " ran out of water ;(");
+            plantPot.GetComponent<SpriteRenderer>().sprite = dryPot;
             CheckGrowth = true;
         }
     }
@@ -302,6 +308,9 @@ public class PlantCore : MonoBehaviour
         this.plantWaterConsumptionRate = plantTemplate.PlantWaterConsumption;
 
         this.relationshipMilestones = plantTemplate.RelationshipMilestones;
+
+        dryPot = plantTemplate.DryPot;
+        wetPot = plantTemplate.WetPot;
     }
     #endregion
 }

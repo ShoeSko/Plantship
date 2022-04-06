@@ -13,14 +13,16 @@ MonoBehaviour:
   m_Name: TestPlantJeff
   m_EditorClassIdentifier: 
   nameOfPlant: Jeff
-  seed: {fileID: 21300000, guid: dd8a9b22632cd0242a8deebfe66ee13c, type: 3}
-  growthStage1: {fileID: 21300000, guid: dd8a9b22632cd0242a8deebfe66ee13c, type: 3}
-  growthStage2: {fileID: 21300000, guid: dd8a9b22632cd0242a8deebfe66ee13c, type: 3}
-  fullyGrown: {fileID: 21300000, guid: dd8a9b22632cd0242a8deebfe66ee13c, type: 3}
-  progressionCostOfPlant: b4000000680100001c020000
+  seed: {fileID: 21300000, guid: e51e759f247deb940a0b5cc712c8313d, type: 3}
+  growthStage1: {fileID: 21300000, guid: 328e8cf65ba48b647b93244df030e868, type: 3}
+  growthStage2: {fileID: 21300000, guid: 7cac54edcffa6814fb1511c70ba1ef59, type: 3}
+  fullyGrown: {fileID: 21300000, guid: 6019f762917d91047906a38e68c8e87a, type: 3}
+  progressionCostOfPlant: 120000002400000036000000
   preferencesOfPlant: []
   preferencesOfPlantNoMic: []
   PlantWaterConsumption: 2.5
   buyingPriceOfPlant: 100
   sellingPriceOfPlant: 6400000096000000f500000072010000
   RelationshipMilestones: 000000000000000000000000
+  DryPot: {fileID: 21300000, guid: 7912ee2fd698cd64cb5c87c77941c184, type: 3}
+  WetPot: {fileID: 21300000, guid: d932b9559030ff142a9ef0bdf557d05c, type: 3}

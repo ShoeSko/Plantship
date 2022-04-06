@@ -8,14 +8,21 @@ public class GardenManager : MonoBehaviour
 {
     public Camera GardenCam;
     public Camera PlantCam;
+    public Camera SacntuaryCam;
 
     public GameObject TestPlant;
+    public GameObject SanctuaryTestPlant;
     public GameObject WaterCan;
 
-    public List<GameObject> ActivePlantSpots = new List<GameObject>();
+    public List<GameObject> ActivePlantSpots = new List<GameObject>();//Place in garden (can be increased)
+    public List<GameObject> ActiveSanctuarySpots = new List<GameObject>();//Place in sanctuary (can be increased)
+
     public List<GameObject> GardenUI = new List<GameObject>();
     public List<GameObject> PlantCareUI = new List<GameObject>();
+    public List<GameObject> SanctuaryUI = new List<GameObject>();
+
     public List<GameObject> SaveOrSellUI = new List<GameObject>();
+
     public GameObject SellConfirmation;
     public TextMeshProUGUI SellDescription;
 
@@ -85,6 +92,30 @@ public class GardenManager : MonoBehaviour
         }
     }
 
+    public void AddPlantToSanctuary()
+    {
+        for (int i = 0; i < ActiveSanctuarySpots.Count; i++)
+        {
+            if (ActiveSanctuarySpots[i].GetComponent<PlantSpots>().IsUsed == false)//If the spot is empty
+            {
+                ActiveSanctuarySpots[i].GetComponent<PlantSpots>().ActivePlant = SanctuaryTestPlant;
+                ActiveSanctuarySpots[i].GetComponent<PlantSpots>().PlacePlant();
+
+                if (plantactionActive)
+                    PlantActionButton();
+
+                Spot.GetComponent<PlantSpots>().PlantSold();
+                ChangeUI();
+
+                i = ActiveSanctuarySpots.Count;//stop the loop
+            }
+            else if (i + 1 == ActiveSanctuarySpots.Count)//if no spot is available
+            {
+                Debug.Log("There's no space in sanctuary");
+            }
+        }
+    }
+
     IEnumerator NoSpaceDisplay()
     {
         UINoSpace.SetActive(true);
@@ -117,6 +148,22 @@ public class GardenManager : MonoBehaviour
 
         GardenCam.enabled = !GardenCam.enabled;
         PlantCam.enabled = !PlantCam.enabled;
+    }
+
+    public void ChangeUISanctuary()
+    {
+        for (int i = 0; i < GardenUI.Count; i++)
+        {
+            GardenUI[i].SetActive(!GardenUI[i].activeSelf);
+        }
+
+        for (int i = 0; i < SanctuaryUI.Count; i++)
+        {
+            SanctuaryUI[i].SetActive(!SanctuaryUI[i].activeSelf);
+        }
+
+        GardenCam.enabled = !GardenCam.enabled;
+        SacntuaryCam.enabled = !SacntuaryCam.enabled;
     }
 
     /// <summary>
@@ -160,10 +207,5 @@ public class GardenManager : MonoBehaviour
         SellConfirmation.SetActive(false);
         Spot.GetComponent<PlantSpots>().PlantSold();
         ChangeUI();
-    }
-
-    public void SavePlant()
-    {
-        //Include code for adding plant to private garden
     }
 }

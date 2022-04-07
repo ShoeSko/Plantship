@@ -66,7 +66,7 @@ public class MicWithPlant : MonoBehaviour
     private void Update()
     {
 
-        if (theMicrophone._isInitialized)
+        if (theMicrophone._isInitialized) //If the Mic is running
         {
             ScoringInVolumeMinigame(); //Runs to update the point slider. (Might need to change)
             ScoreRangeMover();

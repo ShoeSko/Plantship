@@ -59,6 +59,8 @@ public class GardenManager : MonoBehaviour
     public List<GameObject> ActiveSanctuarySpots = new List<GameObject>();//Place in sanctuary (can be increased)
     private bool plantactionActive;
 
+    public static bool minigameButtonSwitch; //Accesible everywhere
+
     //Affection
     private bool isInteracting;
     public GameObject Heart;
@@ -83,6 +85,10 @@ public class GardenManager : MonoBehaviour
 
 
             if (MainPlant.GetComponent<PlantCore>().Stage == 3)
+            {
+                PlantAction.SetActive(true);
+            }
+            else if (MainPlant.GetComponent<PlantCore>().ReadyToGrowUp) //Tempt setup, if it Is ready to grow. Turn button on.
             {
                 PlantAction.SetActive(true);
             }
@@ -272,14 +278,38 @@ public class GardenManager : MonoBehaviour
 
     public void PlantActionButton()
     {
-        plantactionActive = !plantactionActive;
-        for (int i = 0; i < SaveOrSellUI.Count; i++)
+        if (MainPlant.GetComponent<PlantCore>().FullyGrown) //Is the plant Fully Grown
         {
-            SaveOrSellUI[i].SetActive(!SaveOrSellUI[i].activeSelf);
-        }
+            plantactionActive = !plantactionActive;
+            for (int i = 0; i < SaveOrSellUI.Count; i++)
+            {
+                SaveOrSellUI[i].SetActive(!SaveOrSellUI[i].activeSelf);
+            }
 
+        }
         SFXplayer.clip = ClickOn;
         SFXplayer.Play();
+    }
+
+    public void PlantMilestoneMinigameRun() //Switches the Minigame on/off
+    {
+        PlantCore plantCore = MainPlant.GetComponent<PlantCore>();
+        if (!plantCore.FullyGrown && plantCore.ReadyToGrowUp && !minigameButtonSwitch) //If it is not Fully Grown do this, but ready to grow.
+        {
+            plantCore.VoiceMinigameObject.SetActive(true);//Turns on Minigame.
+            print("Turned on Minigame, I promise!");
+            minigameButtonSwitch = true;
+        }
+        else
+        {
+            MilestoneMinigameTurnedOff(); //Turns off the minigame
+        }
+    }
+
+    public void MilestoneMinigameTurnedOff()//Switches the minigame off.
+    {
+        minigameButtonSwitch = false; //It is now off.
+        MainPlant.GetComponent<PlantCore>().VoiceMinigameObject.SetActive(false);//Turns off Minigame.
     }
 
     public void AskSellConfirmation()

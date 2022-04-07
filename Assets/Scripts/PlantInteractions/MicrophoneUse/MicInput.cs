@@ -27,7 +27,7 @@ public class MicInput : MonoBehaviour
             _device = Microphone.devices[0];
             _device = null;
             _clipRecord = Microphone.Start(_device, true, 999, 1000);
-            Debug.Log(_clipRecord);
+            //Debug.Log(_clipRecord);
         }
     }
 

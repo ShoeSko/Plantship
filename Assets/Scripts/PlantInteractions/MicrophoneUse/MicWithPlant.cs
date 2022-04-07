@@ -42,8 +42,9 @@ public class MicWithPlant : MonoBehaviour
     [SerializeField] float scoreGoal; //The current goal of the score.
 
     [Header("End condition")]
-    private bool wonMinigame;
+    [HideInInspector] public bool WonVoiceMinigame;
     [SerializeField] private GameObject winTxt;
+
     #endregion
 
     private void Start()
@@ -70,11 +71,11 @@ public class MicWithPlant : MonoBehaviour
         {
             ScoringInVolumeMinigame(); //Runs to update the point slider. (Might need to change)
             ScoreRangeMover();
-            if (wonMinigame)
-            {
-                wonMinigame = false;
-                //winTxt.gameObject.SetActive(false);
-            }
+            //if (WonVoiceMinigame)
+            //{
+            //    WonVoiceMinigame = false;
+            //    //winTxt.gameObject.SetActive(false);
+            //}
 
         }
         else
@@ -106,7 +107,7 @@ public class MicWithPlant : MonoBehaviour
             newRangeLocation = Random.Range(scoreRangeLow, scoreRangeHigh); //Gives a location within the border of the slider.
             speedToReachLocation = Random.Range(minSpeed, maxSpeed); //Gives a speed within the border given.
             
-            Debug.Log("The new location is " + newRangeLocation + " & the speed to reach it is " + speedToReachLocation + " with a tic rate of " + rateToLocation);
+            //Debug.Log("The new location is " + newRangeLocation + " & the speed to reach it is " + speedToReachLocation + " with a tic rate of " + rateToLocation);
 
             StartCoroutine(MoveTheRangeSlider());
         }
@@ -178,20 +179,34 @@ public class MicWithPlant : MonoBehaviour
         if (volumeMinigameScoreSlider.value == scoreGoal)
         {
             theMicrophone.ActivateVolumeRecording();
-            wonMinigame = true;
-            winTxt.gameObject.SetActive(true);
+            WonVoiceMinigame = true;
+            //winTxt.gameObject.SetActive(true);
         }
     }
     /// <summary>
     /// Resets all variables.
     /// </summary>
-    private void ResetMinigame()
+    public void ResetMinigame()
     {
         //What to reset, score value. Range location.
 
         currentScore = 0;
         volumeMinigameScoreSlider.value = 0;
         volumeMinigameRangeSlider.value = scoreRangeHigh;
+        hasNewLocation = false;
         StopCoroutine(MoveTheRangeSlider());
+
+        GardenManager.minigameButtonSwitch = false; //Makes sure the button resets.
+    }
+
+    private void OnDisable()
+    {
+        ResetMinigame(); //Resets setting on disabled.
+
+        if (theMicrophone._isInitialized)
+        {
+            theMicrophone.ActivateVolumeRecording(); //Stops the recording. 
+        }
+        
     }
 }

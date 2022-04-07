@@ -50,8 +50,13 @@ public class PlantCore : MonoBehaviour
     [HideInInspector] public float waterStoredInPlant; //The amount of water this plant has been given(Lowers over time)
     [HideInInspector] public float waterPlantCanStoreLimit = 200; //The upper amount of wate this plant can store. This should be changeable?
     [HideInInspector] public bool WateringIsInProgress; //Is the watering can being held?
+    [HideInInspector] public bool ReadyToGrowUp; //A bool for when the plant is ready for milestone growth. (If true. stop growing + need minigame to grow).
+    private MicWithPlant micScript; //Access to the mic script.
+    public GameObject VoiceMinigameObject; //The main object of the voice minigame to make it run, when turned on.
     private float wateringTickSpeed = 0.1f; //How fast will the watering take place.
     private float wateringTimer; //Timer to limit water speed.
+
+    [HideInInspector] public bool isActivePlant; //The plant itself need to know it is the current active plant.
 
     [HideInInspector] public int NextMilestoneEXP;
     [HideInInspector] public int PreviousMilestoneEXP;
@@ -73,19 +78,28 @@ public class PlantCore : MonoBehaviour
 
         //Second Priority
         PlantSpriteChange(); //Run early to update the sprite of the plant to the current stage.  (Also to be run when a progression goal is reached/Milestone)
+
     }
 
     private void Start()
     {
         plantPot = transform.Find("PlantPot").gameObject;
+
+        //Voice minigame work
+        //VoiceMinigameObject.SetActive(true);
+        ////Debug.Log("Voice mini game object is called " + VoiceMinigameObject.name);
+        //VoiceMinigameObject.SetActive(false);
+        micScript = VoiceMinigameObject.GetComponent<MicWithPlant>(); //Gets a refrence to the MicWithPlant Script.
     }
     #endregion
     #region Update
     private void Update()
     {
-        Debug.Log("Growth Stage = " + Stage);
+        //Debug.Log("Growth Stage = " + Stage);
         float CurrentSellValue = (sellingPriceOfPlant[Stage] * relationshipCostModifier[AffectionLevel]);
         Debug.Log("My sell value is now: " + CurrentSellValue);
+
+        AmIActivePlant(); //Check if this plant is the current active plant.
 
         if (WateringIsInProgress)
         {
@@ -186,7 +200,7 @@ public class PlantCore : MonoBehaviour
     #region Plant Growth
     private void GrowingPlant()
     {
-        if(waterStoredInPlant > 0) //Only takes effect if there is water!!!
+        if(waterStoredInPlant > 0 && !ReadyToGrowUp) //Only takes effect if there is water!!! & that it is not ready to grow up.
         {
             plantPot.GetComponent<SpriteRenderer>().sprite = wetPot;
             StartCoroutine(PlantGowing());
@@ -198,16 +212,16 @@ public class PlantCore : MonoBehaviour
     
     IEnumerator PlantGowing()
     {
-        Debug.Log("I did PlantGowing");
+        //Debug.Log("I did PlantGowing");
         yield return new WaitForSeconds(growthSpeed);
-        if (waterStoredInPlant > 0)
+        if (waterStoredInPlant > 0 && !ReadyToGrowUp)
         {
             currentGrowthValue += growthRate; //Increases progression, add modifiers for growth rate later?
             StartCoroutine(PlantGowing()); //Reruns the program.
         }
         else
         {
-            Debug.Log(gameObject.name + " ran out of water ;(");
+            //Debug.Log(gameObject.name + " ran out of water ;(");
             plantPot.GetComponent<SpriteRenderer>().sprite = dryPot;
             CheckGrowth = true;
         }
@@ -218,7 +232,7 @@ public class PlantCore : MonoBehaviour
         yield return new WaitForSeconds(1f);//This number should be 144 in the final product
         waterStoredInPlant -= plantWaterConsumptionRate;
 
-        if(waterStoredInPlant > 0)
+        if(waterStoredInPlant > 0 && !ReadyToGrowUp)
         {
             StartCoroutine(ConsumeWater());
         }
@@ -232,45 +246,106 @@ public class PlantCore : MonoBehaviour
         {
             if(growthStage != 3) //Checks that it has not already changed stage
             {
-                Stage = 3;
-                Debug.Log("IM AT STAGE 3");
-                growthStage = 3; //Sets the growthStage to Full grown
-                PlantSpriteChange(); //Update sprite to the new plant form.
-                FullyGrown = true;
+                if (ReadyToGrowUp && micScript.WonVoiceMinigame)
+                {
+                    Stage = 3;
+                    //Debug.Log("IM AT STAGE 3");
+                    growthStage = 3; //Sets the growthStage to Full grown
+                    PlantSpriteChange(); //Update sprite to the new plant form.
+                    FullyGrown = true;
+
+
+                    ReadyToGrowUp = false; //No longer ready to grow up.
+
+                    micScript.WonVoiceMinigame = false; //Resets minigame.
+                    VoiceMinigameObject.SetActive(false);
+                }
+                else if (!ReadyToGrowUp && !FullyGrown && isActivePlant) //If you are not ready to grow up, become it.
+                {
+                    StopCoroutine(ConsumeWater()); //Stops the water from being emptied.
+                    StopCoroutine(PlantGowing()); //Stops the plant from growing without permission.
+                    ReadyToGrowUp = true; //Makes sure script knows plant is ready to grow up.
+                }
             }
         }
         else if(currentGrowthValue >= ListprogressionCostOfPlant[1]) //Check if the progression has reached the second stage.
         {
             if(growthStage != 2) //Checks if it has not already changed stage
             {
-                Stage = 2;
-                Debug.Log("IM AT STAGE 2");
-                growthStage = 2; //Sets the growthStage to stage 2
-                NextMilestoneEXP = ListprogressionCostOfPlant[2];
-                PreviousMilestoneEXP = ListprogressionCostOfPlant[1];
-                PlantSpriteChange(); //Update sprite to the new plant form.
+                if (ReadyToGrowUp && micScript.WonVoiceMinigame)
+                {
+                    Stage = 2;
+                    //Debug.Log("IM AT STAGE 2");
+                    growthStage = 2; //Sets the growthStage to stage 2
+                    NextMilestoneEXP = ListprogressionCostOfPlant[2];
+                    PreviousMilestoneEXP = ListprogressionCostOfPlant[1];
+                    PlantSpriteChange(); //Update sprite to the new plant form. 
+
+                    ReadyToGrowUp = false; //No longer ready to grow up.
+
+                    micScript.WonVoiceMinigame = false; //Resets minigame.
+                    VoiceMinigameObject.SetActive(false);
+                }
+                else if (!ReadyToGrowUp && NextMilestoneEXP != ListprogressionCostOfPlant[2] && isActivePlant) //If you are not ready to grow up, become it.
+                {
+                    StopCoroutine(ConsumeWater()); //Stops the water from being emptied.
+                    StopCoroutine(PlantGowing()); //Stops the plant from growing without permission.
+                    ReadyToGrowUp = true; //Makes sure script knows plant is ready to grow up.
+                }
             }
         }
         else if(currentGrowthValue >= ListprogressionCostOfPlant[0]) //Check if the progression has reached the second stage.
         {
             if(growthStage != 1) //Checks if it has not already changed stage
             {
-                Stage = 1;
-                Debug.Log("IM AT STAGE 1");
-                growthStage = 1; //Sets the growthStage to stage 1
-                NextMilestoneEXP = ListprogressionCostOfPlant[1];
-                PreviousMilestoneEXP = ListprogressionCostOfPlant[0];
-                PlantSpriteChange(); //Update sprite to the new plant form.
+                if (ReadyToGrowUp && micScript.WonVoiceMinigame && isActivePlant) //Grows up if it is ready to grow up & you have won the voice minigame & is the active plant
+                {
+                    Stage = 1;
+                    //Debug.Log("IM AT STAGE 1");
+                    growthStage = 1; //Sets the growthStage to stage 1
+                    NextMilestoneEXP = ListprogressionCostOfPlant[1];
+                    PreviousMilestoneEXP = ListprogressionCostOfPlant[0];
+                    PlantSpriteChange(); //Update sprite to the new plant form. 
+
+                    ReadyToGrowUp = false; //No longer ready to grow up.
+
+                    micScript.WonVoiceMinigame = false; //Resets minigame.
+                    VoiceMinigameObject.SetActive(false);
+                }
+                else if (!ReadyToGrowUp && NextMilestoneEXP != ListprogressionCostOfPlant[1]) //If you are not ready to grow up, become it.
+                {
+                    StopCoroutine(ConsumeWater()); //Stops the water from being emptied.
+                    StopCoroutine(PlantGowing()); //Stops the plant from growing without permission.
+                    ReadyToGrowUp = true; //Makes sure script knows plant is ready to grow up.
+                }
+                //print("YES!  " + ReadyToGrowUp + micScript.WonVoiceMinigame + isActivePlant );
             }
         }
         else if(growthStage == 0)
         {
             Stage = 0;
-            Debug.Log("IM AT STAGE 0");
+            //Debug.Log("IM AT STAGE 0");
             NextMilestoneEXP = ListprogressionCostOfPlant[0];
         }
     }
     #endregion
+    private void AmIActivePlant()
+    {
+        if (FindObjectOfType<GardenManager>().MainPlant == this.gameObject) //Am I the active plant?
+        {
+            isActivePlant = true; //I am now the active plant
+            //print("I am Active plant!");
+            if (!ReadyToGrowUp)
+            {
+                VoiceMinigameObject.SetActive(false); //If I am not to grow turn of game.
+            }
+        }
+        else
+        {
+            isActivePlant = false; //I am no longer the active plant
+        }
+    }
+
     #region Sprite changing
     private void PlantSpriteChange()
     {
@@ -287,7 +362,7 @@ public class PlantCore : MonoBehaviour
             spriteOfPlant.sprite = _seed; //Sprite is now a seed.
         }
 
-        Debug.Log("Current stage is = " + growthStage + "and current sprite image is = " + spriteOfPlant.sprite.name); //What is the current growth and the image associated with it.
+        //Debug.Log("Current stage is = " + growthStage + "and current sprite image is = " + spriteOfPlant.sprite.name); //What is the current growth and the image associated with it.
     }
     #endregion
 

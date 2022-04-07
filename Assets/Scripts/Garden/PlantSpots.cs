@@ -21,6 +21,10 @@ public class PlantSpots : MonoBehaviour
     [HideInInspector] public GameObject ActivePlant;
     [HideInInspector] public GameObject ActiveSpot;
 
+
+    //VoiceMinigameFunctionality
+    [SerializeField] private GameObject voiceMinigameCanvasObject; //Refrence to the voice minigame so that all plants know what it is.
+
     private void Start()
     {
         gardenmanager = GameObject.Find("GardenManager");
@@ -40,12 +44,15 @@ public class PlantSpots : MonoBehaviour
     {
         plant = Instantiate(ActivePlant, transform.position, transform.rotation);
         plant.transform.position += plantOffset;
+
+        plant.GetComponent<PlantCore>().VoiceMinigameObject = voiceMinigameCanvasObject; //Tells the plant what the voice minigame object is.
         IsUsed = true;
     }
 
     public void InspectPlant()//Switches to the plant management menu
     {
         gardenmanager.GetComponent<GardenManager>().MainPlant = plant;
+
         gardenmanager.GetComponent<GardenManager>().Spot = this.gameObject;
 
         watercan = gardenmanager.GetComponent<GardenManager>().WaterCan;

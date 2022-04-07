@@ -4,7 +4,34 @@ Value range MAX = 0.47536
 
 Value range LOWEST= 0.02464
 
-Value Range Difference 0-0.04928 (How far it is between the walls)
+Value Range Difference 0-XXXXXXXX (How far it is between the walls)
 		60 width on Handle.
 
 
+Value range MAX = 0.45074
+
+Value range LOWEST= 0.04926
+
+Value Range Difference 0-0.0.098539 (How far it is between the walls)
+		120 width on Handle.
+
+
+0.04926
+
+
+Value range MAX = 0.47
+
+Value range LOWEST= 0.029
+
+Value Range Difference 0-0.0.029 (How far it is between the walls)
+		New Art Handle
+
+
+
+Current stats:
+Max speed 0.009
+Min Speed 0.005
+Rate to location 0.05
+Wait time when imobile 0.5
+Score increase value 0.2
+Score goal 100

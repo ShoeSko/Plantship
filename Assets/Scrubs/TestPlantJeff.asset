@@ -23,6 +23,6 @@ MonoBehaviour:
   PlantWaterConsumption: 2.5
   buyingPriceOfPlant: 100
   sellingPriceOfPlant: 6400000096000000f500000072010000
-  RelationshipMilestones: 000000000000000000000000
+  RelationshipMilestones: 64000000c8000000f4010000
   DryPot: {fileID: 21300000, guid: 7912ee2fd698cd64cb5c87c77941c184, type: 3}
   WetPot: {fileID: 21300000, guid: d932b9559030ff142a9ef0bdf557d05c, type: 3}

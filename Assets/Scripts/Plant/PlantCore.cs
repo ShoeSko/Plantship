@@ -42,7 +42,7 @@ public class PlantCore : MonoBehaviour
     [HideInInspector] public int growthStage; //The value representation of the current stage (0 = seed, 3 = fully grown)
     [HideInInspector] public int Stage; //The value representation of the current stage (0 = seed, 3 = fully grown)
     private bool CheckGrowth = true;
-    private bool FullyGrown;
+    [HideInInspector] public bool FullyGrown;
 
     private GameObject plantPot;
 
@@ -93,13 +93,19 @@ public class PlantCore : MonoBehaviour
             wateringTimer = 0; //Resets timer.
             //Debug.Log("Button was released");
         }
-        
-        if(CheckGrowth)
-            GrowingPlant(); //Growing power of plant!
 
         CheckForMilestone(); //Checks if milestones have been reached (Robust for Prototype)
 
-        //ReadRelationshipMeter();
+        if (FullyGrown)
+        {
+            waterStoredInPlant = 0;           
+        }
+        else if (CheckGrowth)
+        {
+            GrowingPlant(); //Growing power of plant!
+        }
+
+        ReadRelationshipMeter();
     }
     #endregion
 
@@ -279,8 +285,7 @@ public class PlantCore : MonoBehaviour
     #endregion
 
     #region Affection
-
-    /*
+    
     private void ReadRelationshipMeter()
     {
         if(Affection <= relationshipMilestones[AffectionLevel])
@@ -288,7 +293,7 @@ public class PlantCore : MonoBehaviour
             AffectionLevel++;
         }
     }
-    */
+    
 
     #endregion
 

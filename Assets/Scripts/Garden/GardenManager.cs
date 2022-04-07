@@ -16,14 +16,12 @@ public class GardenManager : MonoBehaviour
     public GameObject SanctuaryTestPlant;
     public GameObject WaterCan;
 
-    //Placeable plant spots
-    public List<GameObject> ActivePlantSpots = new List<GameObject>();//Place in garden (can be increased)
-    public List<GameObject> ActiveSanctuarySpots = new List<GameObject>();//Place in sanctuary (can be increased)
-
     //UI scenes
     public List<GameObject> GardenUI = new List<GameObject>();
     public List<GameObject> PlantCareUI = new List<GameObject>();
+    public List<GameObject> PlantCareInspectionUI = new List<GameObject>();//Just some elements from PlantCareUI
     public List<GameObject> SanctuaryUI = new List<GameObject>();
+    public List<GameObject> PlantAffectionUI = new List<GameObject>();
 
     //selling
     public List<GameObject> SaveOrSellUI = new List<GameObject>();
@@ -53,11 +51,15 @@ public class GardenManager : MonoBehaviour
     public AudioClip ClickOff;
     public AudioClip ClickOn;
 
-    //other
+    //PlantStuff
     [HideInInspector] public GameObject MainPlant;
     [HideInInspector] public GameObject Spot;
-
+    public List<GameObject> ActivePlantSpots = new List<GameObject>();//Place in garden (can be increased)
+    public List<GameObject> ActiveSanctuarySpots = new List<GameObject>();//Place in sanctuary (can be increased)
     private bool plantactionActive;
+
+    //Affection
+    private bool isInteracting;
 
 
     private void Update()
@@ -168,21 +170,59 @@ public class GardenManager : MonoBehaviour
 
     public void ChangeUI()
     {
-        for(int i = 0; i < GardenUI.Count; i++)
+        if (!isInteracting)
         {
-            GardenUI[i].SetActive(!GardenUI[i].activeSelf);
+            for (int i = 0; i < GardenUI.Count; i++)
+            {
+                GardenUI[i].SetActive(!GardenUI[i].activeSelf);
+            }
+
+            for (int i = 0; i < PlantCareUI.Count; i++)
+            {
+                PlantCareUI[i].SetActive(!PlantCareUI[i].activeSelf);
+            }
+
+            SFXplayer.clip = ClickOn;
+            SFXplayer.Play();
+
+            GardenCam.enabled = !GardenCam.enabled;
+            PlantCam.enabled = !PlantCam.enabled;
+        }
+        else
+        {
+            for (int i = 0; i < PlantCareInspectionUI.Count; i++)
+            {
+                PlantCareInspectionUI[i].SetActive(!PlantCareInspectionUI[i].activeSelf);
+            }
+
+            for (int i = 0; i < PlantAffectionUI.Count; i++)
+            {
+                PlantAffectionUI[i].SetActive(!PlantAffectionUI[i].activeSelf);
+            }
+
+            SFXplayer.clip = ClickOff;
+            SFXplayer.Play();
+
+            isInteracting = false;
+        }
+    }
+
+    public void ChangeUIPlantInteraction()
+    {
+        for (int i = 0; i < PlantCareInspectionUI.Count; i++)
+        {
+            PlantCareInspectionUI[i].SetActive(!PlantCareInspectionUI[i].activeSelf);
         }
 
-        for (int i = 0; i < PlantCareUI.Count; i++)
+        for (int i = 0; i < PlantAffectionUI.Count; i++)
         {
-            PlantCareUI[i].SetActive(!PlantCareUI[i].activeSelf);
+            PlantAffectionUI[i].SetActive(!PlantAffectionUI[i].activeSelf);
         }
 
-        SFXplayer.clip = ClickOn;
+        SFXplayer.clip = ClickOff;
         SFXplayer.Play();
 
-        GardenCam.enabled = !GardenCam.enabled;
-        PlantCam.enabled = !PlantCam.enabled;
+        isInteracting = true;
     }
 
     public void ChangeUISanctuary()
@@ -272,5 +312,10 @@ public class GardenManager : MonoBehaviour
             SFXplayer.Play();
             MenuInteractionDown = false;
         }
+    }
+
+    public void InteractWithPlant()
+    {
+
     }
 }

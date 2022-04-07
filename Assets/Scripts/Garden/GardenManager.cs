@@ -46,6 +46,13 @@ public class GardenManager : MonoBehaviour
     public Slider EXPSlider;
     public Slider PlantWaterSlider;
 
+    //Audio
+    public AudioSource SFXplayer;
+    public AudioClip SlideDown;
+    public AudioClip SlideUp;
+    public AudioClip ClickOff;
+    public AudioClip ClickOn;
+
     //other
     [HideInInspector] public GameObject MainPlant;
     [HideInInspector] public GameObject Spot;
@@ -91,16 +98,23 @@ public class GardenManager : MonoBehaviour
                     ActivePlantSpots[i].GetComponent<PlantSpots>().PlacePlant();
                     CurrencySystem.SoftCurrency -= 100;
 
+                    SFXplayer.clip = ClickOn;
+                    SFXplayer.Play();
+
                     i = ActivePlantSpots.Count;//stop the loop
                 }
                 else if (i + 1 == ActivePlantSpots.Count)//if no spot is available
                 {
+                    SFXplayer.clip = ClickOff;
+                    SFXplayer.Play();
                     StartCoroutine(NoSpaceDisplay());
                 }
             }
         }
         else
         {
+            SFXplayer.clip = ClickOff;
+            SFXplayer.Play();
             StartCoroutine(NoMoneyDisplay()); 
         }
     }
@@ -120,10 +134,15 @@ public class GardenManager : MonoBehaviour
                 Spot.GetComponent<PlantSpots>().PlantSold();
                 ChangeUI();
 
+                SFXplayer.clip = ClickOn;
+                SFXplayer.Play();
+
                 i = ActiveSanctuarySpots.Count;//stop the loop
             }
             else if (i + 1 == ActiveSanctuarySpots.Count)//if no spot is available
             {
+                SFXplayer.clip = ClickOff;
+                SFXplayer.Play();
                 Debug.Log("There's no space in sanctuary");
             }
         }
@@ -159,6 +178,9 @@ public class GardenManager : MonoBehaviour
             PlantCareUI[i].SetActive(!PlantCareUI[i].activeSelf);
         }
 
+        SFXplayer.clip = ClickOn;
+        SFXplayer.Play();
+
         GardenCam.enabled = !GardenCam.enabled;
         PlantCam.enabled = !PlantCam.enabled;
     }
@@ -174,6 +196,9 @@ public class GardenManager : MonoBehaviour
         {
             SanctuaryUI[i].SetActive(!SanctuaryUI[i].activeSelf);
         }
+
+        SFXplayer.clip = ClickOn;
+        SFXplayer.Play();
 
         GardenCam.enabled = !GardenCam.enabled;
         SacntuaryCam.enabled = !SacntuaryCam.enabled;
@@ -205,6 +230,9 @@ public class GardenManager : MonoBehaviour
         {
             SaveOrSellUI[i].SetActive(!SaveOrSellUI[i].activeSelf);
         }
+
+        SFXplayer.clip = ClickOn;
+        SFXplayer.Play();
     }
 
     public void AskSellConfirmation()
@@ -219,6 +247,10 @@ public class GardenManager : MonoBehaviour
             PlantActionButton();
         SellConfirmation.SetActive(false);
         Spot.GetComponent<PlantSpots>().PlantSold();
+
+        SFXplayer.clip = ClickOn;
+        SFXplayer.Play();
+
         ChangeUI();
     }
 
@@ -228,12 +260,16 @@ public class GardenManager : MonoBehaviour
         {
             MenuInteraction.transform.position += dropOffset;
             dropdownButton.transform.eulerAngles = new Vector3(0, 0, 180);
+            SFXplayer.clip = SlideDown;
+            SFXplayer.Play();
             MenuInteractionDown = true;
         }
         else
         {
             MenuInteraction.transform.position -= dropOffset;
             dropdownButton.transform.eulerAngles = new Vector3(0, 0, 0);
+            SFXplayer.clip = SlideUp;
+            SFXplayer.Play();
             MenuInteractionDown = false;
         }
     }

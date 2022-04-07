@@ -42,6 +42,8 @@ public class PlantCore : MonoBehaviour
     [HideInInspector] public int growthStage; //The value representation of the current stage (0 = seed, 3 = fully grown)
     [HideInInspector] public int Stage; //The value representation of the current stage (0 = seed, 3 = fully grown)
     private bool CheckGrowth = true;
+    private bool FullyGrown;
+
     private GameObject plantPot;
 
     [HideInInspector] public float waterStoredInPlant; //The amount of water this plant has been given(Lowers over time)
@@ -221,6 +223,7 @@ public class PlantCore : MonoBehaviour
                 Debug.Log("IM AT STAGE 3");
                 growthStage = 3; //Sets the growthStage to Full grown
                 PlantSpriteChange(); //Update sprite to the new plant form.
+                FullyGrown = true;
             }
         }
         else if(currentGrowthValue >= ListprogressionCostOfPlant[1]) //Check if the progression has reached the second stage.

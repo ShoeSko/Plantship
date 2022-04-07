@@ -24,6 +24,7 @@ public class PlantDesigner : ScriptableObject
     [Tooltip("The price of the plant when it can be aquired")] public int buyingPriceOfPlant; //Simple int for the price of buyig the plant
     [Tooltip("The price of the plant at different stages from 0-3")] public List<int> sellingPriceOfPlant = new List<int>(); //Simple int for the price of selling the plant
     [Tooltip("Required affection to reach various milestones on the relationship meter")] public List<int> RelationshipMilestones = new List<int>(); //Goals to level up this plant's relationship meter
+    [Tooltip("Required affection to reach various milestones on the relationship meter")] public List<float> RelationshipPriceModifier = new List<float>(); //Selling price modifier for affection
 
     [Tooltip("Sprite for plant's pot when plant is out of water")] public Sprite DryPot;
     [Tooltip("Sprite for plant's pot when plant has water")] public Sprite WetPot;

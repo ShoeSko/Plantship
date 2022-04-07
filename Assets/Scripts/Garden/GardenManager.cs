@@ -43,6 +43,7 @@ public class GardenManager : MonoBehaviour
     //sliders
     public Slider EXPSlider;
     public Slider PlantWaterSlider;
+    public Slider AffectionSlider;
 
     //Audio
     public AudioSource SFXplayer;
@@ -60,6 +61,7 @@ public class GardenManager : MonoBehaviour
 
     //Affection
     private bool isInteracting;
+    public GameObject Heart;
 
 
     private void Update()
@@ -75,7 +77,12 @@ public class GardenManager : MonoBehaviour
             PlantWaterSlider.maxValue = MainPlant.GetComponent<PlantCore>().waterPlantCanStoreLimit;
             PlantWaterSlider.value = MainPlant.GetComponent<PlantCore>().waterStoredInPlant;
 
-            if(MainPlant.GetComponent<PlantCore>().Stage == 3)
+            AffectionSlider.minValue = MainPlant.GetComponent<PlantCore>().PreviousAffectionMilestone;
+            AffectionSlider.maxValue = MainPlant.GetComponent<PlantCore>().NextAffectionMilestone;
+            AffectionSlider.value = MainPlant.GetComponent<PlantCore>().Affection;
+
+
+            if (MainPlant.GetComponent<PlantCore>().Stage == 3)
             {
                 PlantAction.SetActive(true);
             }
@@ -314,8 +321,22 @@ public class GardenManager : MonoBehaviour
         }
     }
 
-    public void InteractWithPlant()
+    public void LovePlant()//prototype script, will likely be deleted or vastly changed
     {
+        if(MainPlant.GetComponent<PlantCore>().AffectionLevel < MainPlant.GetComponent<PlantCore>().relationshipMilestones.Count)
+        {
+            int randomHearts = Random.Range(1, 4);
+            for (int i = 0; i <= randomHearts; i++)
+            {
+                GameObject heart = Instantiate(Heart, MainPlant.transform.position, MainPlant.transform.rotation);
+                Vector2 heartPos = new Vector2(heart.transform.position.x, heart.transform.position.y);
+                Vector2 positionOffset = new Vector2(Random.Range(-0.5f, 0.6f), Random.Range(0f, 2f));
+                heart.transform.position = heartPos + positionOffset;
+                Vector2 velocity = new Vector2(Random.Range(-70f, 80f), Random.Range(50f, 90f));
+                heart.GetComponent<Rigidbody2D>().AddForce(velocity);
+            }
 
+            MainPlant.GetComponent<PlantCore>().Affection += 5;
+        }
     }
 }

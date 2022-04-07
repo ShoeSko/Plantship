@@ -19,12 +19,13 @@ Value Range Difference 0-0.0.098539 (How far it is between the walls)
 0.04926
 
 
-Value range MAX = 0.47
+Value range MAX = 0.236
 
-Value range LOWEST= 0.029
+Value range LOWEST= 0.015
 
 Value Range Difference 0-0.0.029 (How far it is between the walls)
 		New Art Handle
+		0 - 0.25 Slider size
 
 
 

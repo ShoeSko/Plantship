@@ -96,7 +96,7 @@ public class PlantCore : MonoBehaviour
     private void Update()
     {
         //Debug.Log("Growth Stage = " + Stage);
-        float CurrentSellValue = (sellingPriceOfPlant[Stage] * relationshipCostModifier[AffectionLevel]);
+        CurrentSellValue =(int) (sellingPriceOfPlant[Stage] * relationshipCostModifier[AffectionLevel]);
         Debug.Log("My sell value is now: " + CurrentSellValue);
 
         AmIActivePlant(); //Check if this plant is the current active plant.

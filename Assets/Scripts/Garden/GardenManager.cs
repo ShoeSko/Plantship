@@ -294,11 +294,12 @@ public class GardenManager : MonoBehaviour
     public void PlantMilestoneMinigameRun() //Switches the Minigame on/off
     {
         PlantCore plantCore = MainPlant.GetComponent<PlantCore>();
-        if (!plantCore.FullyGrown && plantCore.ReadyToGrowUp && !minigameButtonSwitch) //If it is not Fully Grown do this, but ready to grow.
+        if (!plantCore.FullyGrown && plantCore.ReadyToGrowUp && minigameButtonSwitch == false) //If it is not Fully Grown do this, but ready to grow.
         {
             plantCore.VoiceMinigameObject.SetActive(true);//Turns on Minigame.
             print("Turned on Minigame, I promise!");
             minigameButtonSwitch = true;
+            print(minigameButtonSwitch);
         }
         else
         {

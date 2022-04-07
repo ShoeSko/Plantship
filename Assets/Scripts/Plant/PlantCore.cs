@@ -26,7 +26,8 @@ public class PlantCore : MonoBehaviour
     [Tooltip("The price of the plant when it can be aquired")] private float plantWaterConsumptionRate; //Simple int for the price of buyig the plant
     [HideInInspector] [Tooltip("The price of the plant when it is fully grown and is to be sold")] private List<int> sellingPriceOfPlant; //Simple int for the price of selling the plant
     
-    [HideInInspector] [Tooltip("Required affection to reach various milestones on the relationship meter")] private List<int> relationshipMilestones; //Simple int for the price of selling the plant
+    [HideInInspector] [Tooltip("Required affection to reach various milestones on the relationship meter")] public List<int> relationshipMilestones; //Simple int for the price of selling the plant
+    [HideInInspector] [Tooltip("Required affection to reach various milestones on the relationship meter")] private List<float> relationshipCostModifier; //Simple int for the price of selling the plant
 
     private Sprite dryPot;
     private Sprite wetPot;
@@ -57,8 +58,10 @@ public class PlantCore : MonoBehaviour
 
     [HideInInspector] public int CurrentSellValue;
 
-    [HideInInspector] public int AffectionLevel;//Current level of this plant's affection
+    [HideInInspector] public int AffectionLevel = 0;//Current level of this plant's affection
     [HideInInspector] public int Affection;//Relationship "experience points", determine the AffectionLevel
+    [HideInInspector] public int NextAffectionMilestone;//Relationship "experience points", determine the AffectionLevel
+    [HideInInspector] public int PreviousAffectionMilestone;//Relationship "experience points", determine the AffectionLevel
 
 
     #endregion
@@ -81,7 +84,8 @@ public class PlantCore : MonoBehaviour
     private void Update()
     {
         Debug.Log("Growth Stage = " + Stage);
-        CurrentSellValue = sellingPriceOfPlant[Stage];
+        float CurrentSellValue = (sellingPriceOfPlant[Stage] * relationshipCostModifier[AffectionLevel]);
+        Debug.Log("My sell value is now: " + CurrentSellValue);
 
         if (WateringIsInProgress)
         {
@@ -105,7 +109,10 @@ public class PlantCore : MonoBehaviour
             GrowingPlant(); //Growing power of plant!
         }
 
-        ReadRelationshipMeter();
+        if(AffectionLevel < relationshipMilestones.Count)
+            ReadRelationshipMeter();
+        else
+            PreviousAffectionMilestone = 0;
     }
     #endregion
 
@@ -288,8 +295,11 @@ public class PlantCore : MonoBehaviour
     
     private void ReadRelationshipMeter()
     {
-        if(Affection <= relationshipMilestones[AffectionLevel])
+        NextAffectionMilestone = relationshipMilestones[AffectionLevel];
+
+        if (Affection >= NextAffectionMilestone)
         {
+            PreviousAffectionMilestone = relationshipMilestones[AffectionLevel];
             AffectionLevel++;
         }
     }
@@ -316,6 +326,7 @@ public class PlantCore : MonoBehaviour
         this.plantWaterConsumptionRate = plantTemplate.PlantWaterConsumption;
 
         this.relationshipMilestones = plantTemplate.RelationshipMilestones;
+        this.relationshipCostModifier = plantTemplate.RelationshipPriceModifier;
 
         dryPot = plantTemplate.DryPot;
         wetPot = plantTemplate.WetPot;

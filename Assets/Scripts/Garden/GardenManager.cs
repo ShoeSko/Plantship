@@ -6,34 +6,47 @@ using TMPro;
 
 public class GardenManager : MonoBehaviour
 {
+    //cameras
     public Camera GardenCam;
     public Camera PlantCam;
     public Camera SacntuaryCam;
 
+    //core elements
     public GameObject TestPlant;
     public GameObject SanctuaryTestPlant;
     public GameObject WaterCan;
 
+    //Placeable plant spots
     public List<GameObject> ActivePlantSpots = new List<GameObject>();//Place in garden (can be increased)
     public List<GameObject> ActiveSanctuarySpots = new List<GameObject>();//Place in sanctuary (can be increased)
 
+    //UI scenes
     public List<GameObject> GardenUI = new List<GameObject>();
     public List<GameObject> PlantCareUI = new List<GameObject>();
     public List<GameObject> SanctuaryUI = new List<GameObject>();
 
+    //selling
     public List<GameObject> SaveOrSellUI = new List<GameObject>();
-
     public GameObject SellConfirmation;
     public TextMeshProUGUI SellDescription;
 
+    //special text
     public GameObject UINoSpace;
     public GameObject UINoMoney;
+    public GameObject MenuInteraction;
+    private Vector3 dropOffset = new Vector3(0, -303, 0);
+    private bool MenuInteractionDown;
+
+    //buttons
     public GameObject PlantAction;
     public GameObject SellButton;
+    public GameObject dropdownButton;
 
+    //sliders
     public Slider EXPSlider;
     public Slider PlantWaterSlider;
 
+    //other
     [HideInInspector] public GameObject MainPlant;
     [HideInInspector] public GameObject Spot;
 
@@ -207,5 +220,21 @@ public class GardenManager : MonoBehaviour
         SellConfirmation.SetActive(false);
         Spot.GetComponent<PlantSpots>().PlantSold();
         ChangeUI();
+    }
+
+    public void DropDownMenu()
+    {
+        if (!MenuInteractionDown)
+        {
+            MenuInteraction.transform.position += dropOffset;
+            dropdownButton.transform.eulerAngles = new Vector3(0, 0, 180);
+            MenuInteractionDown = true;
+        }
+        else
+        {
+            MenuInteraction.transform.position -= dropOffset;
+            dropdownButton.transform.eulerAngles = new Vector3(0, 0, 0);
+            MenuInteractionDown = false;
+        }
     }
 }

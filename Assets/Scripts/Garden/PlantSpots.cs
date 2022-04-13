@@ -49,6 +49,14 @@ public class PlantSpots : MonoBehaviour
         IsUsed = true;
     }
 
+    public void PlaceSanctuaryPlant()
+    {
+        plant = Instantiate(ActivePlant, transform.position, transform.rotation);
+        plant.transform.position += plantOffset;
+
+        IsUsed = true;
+    }
+
     public void InspectPlant()//Switches to the plant management menu
     {
         gardenmanager.GetComponent<GardenManager>().MainPlant = plant;

@@ -87,14 +87,17 @@ public class GardenManager : MonoBehaviour
             if (MainPlant.GetComponent<PlantCore>().Stage == 3)
             {
                 PlantAction.SetActive(true);
+                SellButton.SetActive(false);
             }
             else if (MainPlant.GetComponent<PlantCore>().ReadyToGrowUp) //Tempt setup, if it Is ready to grow. Turn button on.
             {
                 PlantAction.SetActive(true);
+                SellButton.SetActive(true);
             }
             else
             {
                 PlantAction.SetActive(false);
+                SellButton.SetActive(true);
             }
 
             SellDescription.text = "Are you sure you want to sell " + MainPlant.GetComponent<PlantCore>().nameOfPlant + " for " + MainPlant.GetComponent<PlantCore>().CurrentSellValue + " coins?";
@@ -141,7 +144,7 @@ public class GardenManager : MonoBehaviour
             if (ActiveSanctuarySpots[i].GetComponent<PlantSpots>().IsUsed == false)//If the spot is empty
             {
                 ActiveSanctuarySpots[i].GetComponent<PlantSpots>().ActivePlant = SanctuaryTestPlant;
-                ActiveSanctuarySpots[i].GetComponent<PlantSpots>().PlacePlant();
+                ActiveSanctuarySpots[i].GetComponent<PlantSpots>().PlaceSanctuaryPlant();
 
                 if (plantactionActive)
                     PlantActionButton();
@@ -218,6 +221,12 @@ public class GardenManager : MonoBehaviour
 
             isInteracting = false;
         }
+
+        if (!plantactionActive)
+            PlantActionButton();
+
+        if (SellConfirmation.activeSelf == true)
+            AskSellConfirmation();
     }
 
     public void ChangeUIPlantInteraction()
@@ -285,7 +294,6 @@ public class GardenManager : MonoBehaviour
             {
                 SaveOrSellUI[i].SetActive(!SaveOrSellUI[i].activeSelf);
             }
-
         }
         SFXplayer.clip = ClickOn;
         SFXplayer.Play();
@@ -316,13 +324,19 @@ public class GardenManager : MonoBehaviour
     public void AskSellConfirmation()
     {
         SellConfirmation.SetActive(!SellConfirmation.activeSelf);//Toggle active
+
+        if (!plantactionActive)
+            PlantActionButton();
+
+        SFXplayer.clip = ClickOn;
+        SFXplayer.Play();
     }
 
     public void SellPlant()
     {
         CurrencySystem.SoftCurrency += MainPlant.GetComponent<PlantCore>().CurrentSellValue;
-        if(plantactionActive)
-            PlantActionButton();
+        if (SellConfirmation.activeSelf == true)
+            AskSellConfirmation();
         SellConfirmation.SetActive(false);
         Spot.GetComponent<PlantSpots>().PlantSold();
 

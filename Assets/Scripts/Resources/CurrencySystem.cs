@@ -22,9 +22,9 @@ public class CurrencySystem : MonoBehaviour
 
     private void Update()
     {
-        softcurrencyTEXT.text = "Soft Currency: " + SoftCurrency;
-        hardcurrencyTEXT.text = "Hard Currency: " + HardCurrency;
-        watercountTEXT.text = "Water: " + WaterSource.currentWaterStored;
+        softcurrencyTEXT.text = "" + SoftCurrency;
+        hardcurrencyTEXT.text = "" + HardCurrency;
+        watercountTEXT.text = "" + WaterSource.currentWaterStored;
     }
 
     public void AddSoftCurrency(int AddValue)

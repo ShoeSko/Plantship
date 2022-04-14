@@ -14,9 +14,9 @@ public class PlantSpots : MonoBehaviour
     private GameObject watercan;
     private GameObject cam;
 
-    private Vector3 plantOffset = new Vector3(0, 0.9f, 0);
-    private Vector3 watercanOffset = new Vector3(0.65f, 3.61f, 0);
-    private Vector3 camOffset = new Vector3(0, 2.39f, -35);
+    private Vector3 plantOffset = new Vector3(0.1f, 0.2f, 0);
+    private Vector3 watercanOffset = new Vector3(0.65f, 2.2f, 0);
+    private Vector3 camOffset = new Vector3(0, 2f, -35);
 
     [HideInInspector] public GameObject ActivePlant;
     [HideInInspector] public GameObject ActiveSpot;

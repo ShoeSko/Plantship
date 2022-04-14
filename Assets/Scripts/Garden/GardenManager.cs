@@ -31,9 +31,6 @@ public class GardenManager : MonoBehaviour
     //special text
     public GameObject UINoSpace;
     public GameObject UINoMoney;
-    public GameObject MenuInteraction;
-    private Vector3 dropOffset = new Vector3(0, -303, 0);
-    private bool MenuInteractionDown;
 
     //buttons
     public GameObject PlantAction;
@@ -344,26 +341,6 @@ public class GardenManager : MonoBehaviour
         SFXplayer.Play();
 
         ChangeUI();
-    }
-
-    public void DropDownMenu()
-    {
-        if (!MenuInteractionDown)
-        {
-            MenuInteraction.transform.position += dropOffset;
-            dropdownButton.transform.eulerAngles = new Vector3(0, 0, 180);
-            SFXplayer.clip = SlideDown;
-            SFXplayer.Play();
-            MenuInteractionDown = true;
-        }
-        else
-        {
-            MenuInteraction.transform.position -= dropOffset;
-            dropdownButton.transform.eulerAngles = new Vector3(0, 0, 0);
-            SFXplayer.clip = SlideUp;
-            SFXplayer.Play();
-            MenuInteractionDown = false;
-        }
     }
 
     public void LovePlant()//prototype script, will likely be deleted or vastly changed

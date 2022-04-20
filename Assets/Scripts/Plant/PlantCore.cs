@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -55,6 +56,8 @@ public class PlantCore : MonoBehaviour
     public GameObject VoiceMinigameObject; //The main object of the voice minigame to make it run, when turned on.
     private float wateringTickSpeed = 0.1f; //How fast will the watering take place.
     private float wateringTimer; //Timer to limit water speed.
+    [HideInInspector] public bool affectionMinigameRun;
+    [HideInInspector] public bool milestoneMinigameRun;
 
     [HideInInspector] public bool isActivePlant; //The plant itself need to know it is the current active plant.
 
@@ -113,6 +116,7 @@ public class PlantCore : MonoBehaviour
         }
 
         CheckForMilestone(); //Checks if milestones have been reached (Robust for Prototype)
+        CheckForAffection();
 
         if (FullyGrown)
         {
@@ -128,6 +132,8 @@ public class PlantCore : MonoBehaviour
         else
             PreviousAffectionMilestone = 0;
     }
+
+
     #endregion
 
     #region Watering
@@ -246,7 +252,7 @@ public class PlantCore : MonoBehaviour
         {
             if(growthStage != 3) //Checks that it has not already changed stage
             {
-                if (ReadyToGrowUp && micScript.WonVoiceMinigame)
+                if (ReadyToGrowUp && micScript.WonVoiceMinigame && milestoneMinigameRun) 
                 {
                     Stage = 3;
                     //Debug.Log("IM AT STAGE 3");
@@ -272,7 +278,7 @@ public class PlantCore : MonoBehaviour
         {
             if(growthStage != 2) //Checks if it has not already changed stage
             {
-                if (ReadyToGrowUp && micScript.WonVoiceMinigame)
+                if (ReadyToGrowUp && micScript.WonVoiceMinigame && milestoneMinigameRun)
                 {
                     Stage = 2;
                     //Debug.Log("IM AT STAGE 2");
@@ -298,7 +304,7 @@ public class PlantCore : MonoBehaviour
         {
             if(growthStage != 1) //Checks if it has not already changed stage
             {
-                if (ReadyToGrowUp && micScript.WonVoiceMinigame && isActivePlant) //Grows up if it is ready to grow up & you have won the voice minigame & is the active plant
+                if (ReadyToGrowUp && micScript.WonVoiceMinigame && isActivePlant && milestoneMinigameRun) //Grows up if it is ready to grow up & you have won the voice minigame & is the active plant
                 {
                     Stage = 1;
                     //Debug.Log("IM AT STAGE 1");
@@ -329,16 +335,29 @@ public class PlantCore : MonoBehaviour
         }
     }
     #endregion
+
+    private void CheckForAffection()
+    {
+        if(isActivePlant && affectionMinigameRun && micScript.WonVoiceMinigame) //If the active plant is running the affection version of the game and won do this.
+        {
+            FindObjectOfType<GardenManager>().LovePlant(); //Test for voice use.
+
+            micScript.WonVoiceMinigame = false; //Resets minigame.
+            VoiceMinigameObject.SetActive(false);
+        }
+    }
+
+
     private void AmIActivePlant()
     {
         if (FindObjectOfType<GardenManager>().MainPlant == this.gameObject) //Am I the active plant?
         {
             isActivePlant = true; //I am now the active plant
             //print("I am Active plant!");
-            if (!ReadyToGrowUp)
-            {
-                VoiceMinigameObject.SetActive(false); //If I am not to grow turn of game.
-            }
+            //if (!ReadyToGrowUp)
+            //{
+            //    VoiceMinigameObject.SetActive(false); //If I am not to grow turn of game.
+            //}
         }
         else
         {

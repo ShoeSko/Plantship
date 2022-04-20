@@ -20,7 +20,7 @@ public class CurrencySystem : MonoBehaviour
         //Test thingy for build
         SoftCurrency = 300;
         HardCurrency = 50;
-        AffectionTokens = 1;
+        AffectionTokens = 0;
     }
 
     private void Update()

@@ -315,15 +315,24 @@ public class GardenManager : MonoBehaviour
         SFXplayer.Play();
     }
 
-    public void PlantMilestoneMinigameRun() //Switches the Minigame on/off
+    public void PlantMilestoneMinigameRun(bool isAffectionButton) //Switches the Minigame on/off
     {
         PlantCore plantCore = MainPlant.GetComponent<PlantCore>();
-        if (!plantCore.FullyGrown && plantCore.ReadyToGrowUp && minigameButtonSwitch == false) //If it is not Fully Grown do this, but ready to grow.
+        if (!plantCore.FullyGrown && plantCore.ReadyToGrowUp && minigameButtonSwitch == false && !isAffectionButton) //If it is not Fully Grown do this, but ready to grow.
         {
             plantCore.VoiceMinigameObject.SetActive(true);//Turns on Minigame.
             print("Turned on Minigame, I promise!");
             minigameButtonSwitch = true;
             print(minigameButtonSwitch);
+            plantCore.milestoneMinigameRun = true;
+        }
+        else if (plantCore.AffectionLevel < plantCore.relationshipMilestones.Count && minigameButtonSwitch == false && isAffectionButton)
+        {
+            plantCore.VoiceMinigameObject.SetActive(true);//Turns on Minigame.
+            print("Turned on Minigame, I promise!");
+            minigameButtonSwitch = true;
+            print(minigameButtonSwitch);
+            plantCore.affectionMinigameRun = true;
         }
         else
         {
@@ -333,8 +342,12 @@ public class GardenManager : MonoBehaviour
 
     public void MilestoneMinigameTurnedOff()//Switches the minigame off.
     {
+        PlantCore plantCore = MainPlant.GetComponent<PlantCore>();
         minigameButtonSwitch = false; //It is now off.
-        MainPlant.GetComponent<PlantCore>().VoiceMinigameObject.SetActive(false);//Turns off Minigame.
+        plantCore.VoiceMinigameObject.SetActive(false);//Turns off Minigame.
+
+        plantCore.affectionMinigameRun = false;
+        plantCore.milestoneMinigameRun = false;
     }
 
     public void AskSellConfirmation()

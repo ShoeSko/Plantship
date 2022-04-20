@@ -1476,7 +1476,7 @@ MonoBehaviour:
       - m_Target: {fileID: 961986133}
         m_TargetAssemblyTypeName: GardenManager, Assembly-CSharp
         m_MethodName: PlantMilestoneMinigameRun
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5663,7 +5663,7 @@ MonoBehaviour:
   SellDescription: {fileID: 386059253}
   UINoSpace: {fileID: 1040453077}
   UINoMoney: {fileID: 2055226368}
-  UINoAT: {fileID: 1054733325}
+  UINoAT: {fileID: 0}
   PlantAction: {fileID: 197098071}
   SellButton: {fileID: 316599049}
   dropdownButton: {fileID: 0}
@@ -9032,15 +9032,15 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 961986133}
         m_TargetAssemblyTypeName: GardenManager, Assembly-CSharp
-        m_MethodName: LovePlant
-        m_Mode: 1
+        m_MethodName: PlantMilestoneMinigameRun
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1668316233
 MonoBehaviour:
@@ -9292,15 +9292,15 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 961986133}
         m_TargetAssemblyTypeName: GardenManager, Assembly-CSharp
-        m_MethodName: LovePlant
-        m_Mode: 1
+        m_MethodName: PlantMilestoneMinigameRun
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1735350404
 MonoBehaviour:

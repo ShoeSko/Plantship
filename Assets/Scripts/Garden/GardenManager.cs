@@ -249,11 +249,17 @@ public class GardenManager : MonoBehaviour
             isInteracting = false;
         }
 
+        /*
         if (!plantactionActive)
             PlantActionButton();
+        */
 
         if (SellConfirmation.activeSelf == true)
             AskSellConfirmation();
+
+
+        SaveOrSellUI[0].SetActive(true);
+        SaveOrSellUI[1].SetActive(false);
     }
 
     public void ChangeUIPlantInteraction()
@@ -382,7 +388,7 @@ public class GardenManager : MonoBehaviour
 
         Spot.GetComponent<PlantSpots>().PlantSold();
 
-        if (SaveOrSellUI[1].active)
+        if (SaveOrSellUI[1].activeSelf)
         {
             for (int i = 0; i < SaveOrSellUI.Count; i++)
             {

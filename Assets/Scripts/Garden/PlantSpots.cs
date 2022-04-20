@@ -74,6 +74,11 @@ public class PlantSpots : MonoBehaviour
 
     public void PlantSold()
     {
+        if(plant.GetComponent<PlantCore>().FullyGrown)
+        {
+            CurrencySystem.AffectionTokens++;
+        }
+
         Destroy(plant);
         IsUsed = false;
     }

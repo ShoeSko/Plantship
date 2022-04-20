@@ -97,7 +97,14 @@ public class GardenManager : MonoBehaviour
                 SellButton.SetActive(true);
             }
 
-            SellDescription.text = "Are you sure you want to sell " + MainPlant.GetComponent<PlantCore>().nameOfPlant + " for " + MainPlant.GetComponent<PlantCore>().CurrentSellValue + " coins?";
+            if (MainPlant.GetComponent<PlantCore>().FullyGrown)
+            {
+                SellDescription.text = "Are you sure you want to sell " + MainPlant.GetComponent<PlantCore>().nameOfPlant + " for " + MainPlant.GetComponent<PlantCore>().CurrentSellValue + " coins, and 1 Affection Token?";
+            }
+            else
+            {
+                SellDescription.text = "Are you sure you want to sell " + MainPlant.GetComponent<PlantCore>().nameOfPlant + " for " + MainPlant.GetComponent<PlantCore>().CurrentSellValue + " coins?";
+            }
         }
     }
 

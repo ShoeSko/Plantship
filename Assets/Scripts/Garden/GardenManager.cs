@@ -66,6 +66,12 @@ public class GardenManager : MonoBehaviour
     private int ATPartyCountdown;
 
 
+    private void Awake()
+    {
+        // Disable screen dimming
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+    }
+
     private void Update()
     {
         if (MainPlant != null)
@@ -170,6 +176,11 @@ public class GardenManager : MonoBehaviour
                 SFXplayer.Play();
                 Debug.Log("There's no space in sanctuary");
             }
+        }
+
+        for (int i = 0; i < SaveOrSellUI.Count; i++)
+        {
+            SaveOrSellUI[i].SetActive(!SaveOrSellUI[i].activeSelf);
         }
     }
 
@@ -315,6 +326,7 @@ public class GardenManager : MonoBehaviour
         SFXplayer.Play();
     }
 
+
     public void PlantMilestoneMinigameRun(bool isAffectionButton) //Switches the Minigame on/off
     {
         PlantCore plantCore = MainPlant.GetComponent<PlantCore>();
@@ -367,7 +379,16 @@ public class GardenManager : MonoBehaviour
         if (SellConfirmation.activeSelf == true)
             AskSellConfirmation();
         SellConfirmation.SetActive(false);
+
         Spot.GetComponent<PlantSpots>().PlantSold();
+
+        if (SaveOrSellUI[1].active)
+        {
+            for (int i = 0; i < SaveOrSellUI.Count; i++)
+            {
+                SaveOrSellUI[i].SetActive(!SaveOrSellUI[i].activeSelf);
+            }
+        }
 
         SFXplayer.clip = ClickOn;
         SFXplayer.Play();

@@ -31,6 +31,7 @@ public class GardenManager : MonoBehaviour
     //special text
     public GameObject UINoSpace;
     public GameObject UINoMoney;
+    public GameObject UINoAT;
 
     //buttons
     public GameObject PlantAction;
@@ -59,8 +60,10 @@ public class GardenManager : MonoBehaviour
     public static bool minigameButtonSwitch; //Accesible everywhere
 
     //Affection
+    public GameObject AffectionRewardUI;
     private bool isInteracting;
     public GameObject Heart;
+    private int ATPartyCountdown;
 
 
     private void Update()
@@ -186,6 +189,15 @@ public class GardenManager : MonoBehaviour
         yield return new WaitForSeconds(2);
 
         UINoMoney.SetActive(false);
+    }
+
+    IEnumerator NoATDisplay()
+    {
+        UINoAT.SetActive(true);
+
+        yield return new WaitForSeconds(2);
+
+        UINoAT.SetActive(false);
     }
 
     public void ChangeUI()
@@ -350,22 +362,86 @@ public class GardenManager : MonoBehaviour
         ChangeUI();
     }
 
-    public void LovePlant()//prototype script, will likely be deleted or vastly changed
+    public void LovePlant()
     {
         if(MainPlant.GetComponent<PlantCore>().AffectionLevel < MainPlant.GetComponent<PlantCore>().relationshipMilestones.Count)
         {
-            int randomHearts = Random.Range(1, 4);
-            for (int i = 0; i <= randomHearts; i++)
-            {
-                GameObject heart = Instantiate(Heart, MainPlant.transform.position, MainPlant.transform.rotation);
-                Vector2 heartPos = new Vector2(heart.transform.position.x, heart.transform.position.y);
-                Vector2 positionOffset = new Vector2(Random.Range(-0.5f, 0.6f), Random.Range(0f, 2f));
-                heart.transform.position = heartPos + positionOffset;
-                Vector2 velocity = new Vector2(Random.Range(-70f, 80f), Random.Range(50f, 90f));
-                heart.GetComponent<Rigidbody2D>().AddForce(velocity);
-            }
-
-            MainPlant.GetComponent<PlantCore>().Affection += 5;
+            AffectionRewardUI.SetActive(true);
         }
+    }
+
+    public void ShowAd()//This is very cyberpunked and is ONLY useable for affection
+    {
+        //Idk shows ad or sth
+        AffectionRewardUI.SetActive(false);
+
+        int randomHearts = Random.Range(6, 9);
+        for (int i = 0; i <= randomHearts; i++)
+        {
+            GameObject heart = Instantiate(Heart, MainPlant.transform.position, MainPlant.transform.rotation);
+            Vector2 heartPos = new Vector2(heart.transform.position.x, heart.transform.position.y);
+            Vector2 positionOffset = new Vector2(Random.Range(-0.5f, 0.6f), Random.Range(0f, 2f));
+            heart.transform.position = heartPos + positionOffset;
+            Vector2 velocity = new Vector2(Random.Range(-70f, 80f), Random.Range(50f, 90f));
+            heart.GetComponent<Rigidbody2D>().AddForce(velocity);
+        }
+
+        MainPlant.GetComponent<PlantCore>().Affection += 6;
+    }
+
+    public void UseAffectionToken()
+    {
+        if(CurrencySystem.AffectionTokens > 0)
+        {
+            ATPartyCountdown = 0;
+            StartCoroutine(UsedAT());
+
+            CurrencySystem.AffectionTokens--;
+            AffectionRewardUI.SetActive(false);
+        }
+        else
+        {
+            StartCoroutine(NoATDisplay());
+        }
+    }
+
+    public void AcceptAffection()
+    {
+        AffectionRewardUI.SetActive(false);
+
+        int randomHearts = Random.Range(3, 7);
+        for (int i = 0; i <= randomHearts; i++)
+        {
+            GameObject heart = Instantiate(Heart, MainPlant.transform.position, MainPlant.transform.rotation);
+            Vector2 heartPos = new Vector2(heart.transform.position.x, heart.transform.position.y);
+            Vector2 positionOffset = new Vector2(Random.Range(-0.5f, 0.6f), Random.Range(0f, 2f));
+            heart.transform.position = heartPos + positionOffset;
+            Vector2 velocity = new Vector2(Random.Range(-70f, 80f), Random.Range(50f, 90f));
+            heart.GetComponent<Rigidbody2D>().AddForce(velocity);
+        }
+
+        MainPlant.GetComponent<PlantCore>().Affection += 5;
+    }
+
+    IEnumerator UsedAT()
+    {
+        int randomHearts = Random.Range(1, 3);
+        for (int i = 0; i <= randomHearts; i++)
+        {
+            GameObject heart = Instantiate(Heart, MainPlant.transform.position, MainPlant.transform.rotation);
+            Vector2 heartPos = new Vector2(heart.transform.position.x, heart.transform.position.y);
+            Vector2 positionOffset = new Vector2(Random.Range(-0.5f, 0.6f), Random.Range(0f, 2f));
+            heart.transform.position = heartPos + positionOffset;
+            Vector2 velocity = new Vector2(Random.Range(-70f, 80f), Random.Range(50f, 90f));
+            heart.GetComponent<Rigidbody2D>().AddForce(velocity);
+        }
+
+        MainPlant.GetComponent<PlantCore>().Affection += 5;
+        ATPartyCountdown++;
+
+        yield return new WaitForSeconds(0.2f);
+
+        if(ATPartyCountdown != 10)
+            StartCoroutine(UsedAT());
     }
 }
